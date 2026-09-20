@@ -119,11 +119,10 @@ export const BackupModal: React.FC<BackupModalProps> = ({
 
         {message && (
           <div
-            className={`mt-3 p-3 rounded-md border text-xs flex items-center gap-2 ${
-              message.type === 'success'
+            className={`mt-3 p-3 rounded-md border text-xs flex items-center gap-2 ${message.type === 'success'
                 ? 'bg-card-tint-mint border-brand-green/30 text-brand-green'
                 : 'bg-card-tint-rose border-semantic-error/30 text-semantic-error'
-            }`}
+              }`}
           >
             {message.type === 'success' ? (
               <Check className="w-4 h-4 shrink-0" />
@@ -176,7 +175,7 @@ export const BackupModal: React.FC<BackupModalProps> = ({
             </div>
           </button>
 
-          {/* Demo button */}
+          {/* Demo button
           <button
             type="button"
             onClick={() => {
@@ -194,7 +193,7 @@ export const BackupModal: React.FC<BackupModalProps> = ({
                 <p className="text-[11px] text-steel">Prueba la aplicación con materias y horarios de ejemplo</p>
               </div>
             </div>
-          </button>
+          </button> */}
 
           {/* Clear All */}
           <div className="pt-2">
