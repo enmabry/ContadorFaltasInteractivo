@@ -84,15 +84,33 @@ export const Navbar: React.FC<NavbarProps> = ({
               onClick={() => onTabChange('dashboard')}
               className="flex items-center gap-2.5 cursor-pointer group select-none"
             >
-              <div className="w-8 h-8 rounded-md bg-ink-deep text-on-dark flex items-center justify-center font-bold text-sm shadow-sm transition-transform group-hover:scale-105">
-                N
+              <div className="w-8 h-8 rounded-md bg-brand-navy border border-hairline-strong text-on-dark flex items-center justify-center font-bold text-sm shadow-xs transition-transform group-hover:scale-105 relative overflow-hidden">
+                {/* WEBER Architectural Iron Cage / W Monogram */}
+                <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none">
+                  <line x1="5" y1="2" x2="5" y2="22" stroke="rgba(255,255,255,0.14)" strokeWidth="1" />
+                  <line x1="12" y1="2" x2="12" y2="22" stroke="rgba(255,255,255,0.14)" strokeWidth="1" />
+                  <line x1="19" y1="2" x2="19" y2="22" stroke="rgba(255,255,255,0.14)" strokeWidth="1" />
+                  <path
+                    d="M5 6.5L8.5 17.5L12 10.5L15.5 17.5L19 6.5"
+                    stroke="#ffffff"
+                    strokeWidth="2.2"
+                    strokeLinecap="square"
+                    strokeLinejoin="miter"
+                  />
+                  <circle cx="12" cy="6.5" r="1.5" fill="#7b61ff" />
+                </svg>
               </div>
               <div className="hidden sm:block">
-                <span className="text-sm font-semibold text-ink tracking-tight flex items-center gap-1">
-                  Faltas<span className="text-primary font-bold">App</span>
-                </span>
+                <div className="flex items-center gap-1.5">
+                  <span className="text-sm font-bold tracking-wider text-ink font-mono uppercase">
+                    WEBER
+                  </span>
+                  <span className="px-1.5 py-0.2 rounded-xs text-[9px] font-semibold bg-surface border border-hairline text-steel uppercase tracking-wider">
+                    v1.0
+                  </span>
+                </div>
                 <span className="block text-[10px] text-steel font-medium tracking-wide">
-                  Workspace de Asistencias
+                  Racionaliza tu tiempo
                 </span>
               </div>
             </div>

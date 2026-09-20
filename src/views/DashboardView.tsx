@@ -98,13 +98,14 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
         <div className="relative z-10 flex flex-col sm:flex-row sm:items-center justify-between gap-5">
           <div className="space-y-1.5 max-w-xl">
             <div className="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-full bg-brand-navy-mid text-on-dark-muted text-[11px] font-medium border border-white/10">
-              <span>Control de Faltas • {courseName}</span>
+              <span className="w-1.5 h-1.5 rounded-full bg-brand-purple-300" />
+              <span>WEBER • {courseName}</span>
             </div>
             <h1 className="text-2xl sm:text-3xl font-semibold tracking-tight text-on-dark">
-              Tu panel de asistencia académica
+              Racionaliza tu tiempo universitario
             </h1>
             <p className="text-xs sm:text-sm text-on-dark-muted leading-relaxed">
-              Monitorea límites de inasistencias en tiempo real, consulta horarios y evita sorpresas en exámenes finales.
+              Domina la jaula de tus horarios. Métricas en tiempo real, límites de inasistencia y cálculo de márgenes para que tú controles al sistema, no el sistema a ti.
             </p>
           </div>
 

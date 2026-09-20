@@ -29,7 +29,7 @@ export const InstallGuideModal: React.FC<InstallGuideModalProps> = ({
             </div>
             <div>
               <h2 className="text-base font-semibold text-ink">
-                Instalar como App en tu Teléfono
+                Instalar WEBER en tu Teléfono
               </h2>
               <p className="text-xs text-steel">
                 Pantalla completa (standalone) y modo sin internet

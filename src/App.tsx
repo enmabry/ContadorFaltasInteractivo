@@ -300,7 +300,7 @@ export function App() {
       {/* Footer - Notion footer-region */}
       <footer className="py-6 border-t border-hairline bg-canvas text-center text-xs text-steel">
         <p>
-          Contador de Faltas Interactivo • Notion Design System • PWA Offline-First
+          WEBER • Racionaliza tu tiempo • Notion Design System • PWA Offline-First
         </p>
       </footer>
 
