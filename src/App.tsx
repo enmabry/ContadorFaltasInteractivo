@@ -27,7 +27,6 @@ export function App() {
     setActiveTab,
     setActiveCourse,
     addCourse,
-    importCourse,
     updateCourse,
     deleteCourse,
     addClass,
@@ -93,7 +92,7 @@ export function App() {
     }
   }, [pendingPrompts.length, hasAutoOpenedCatchUp]);
 
-  // Intercept shared course or single class from URL (?share=... or ?shareClass=...)
+  // Intercept shared course or single class from URL on mount (?share=... or ?shareClass=...)
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const shareHash = params.get('share');
@@ -111,7 +110,7 @@ export function App() {
         );
 
         if (confirmImport) {
-          importCourse(importedCourse);
+          useAttendanceStore.getState().importCourse(importedCourse);
           confetti({
             particleCount: 70,
             spread: 80,
@@ -127,20 +126,21 @@ export function App() {
       const importedClass = decodeClassFromURL(shareClassHash);
 
       if (importedClass) {
-        let targetCourseId = activeCourseId;
-        if (!targetCourseId && courses.length > 0) {
-          targetCourseId = courses[0].id;
+        const store = useAttendanceStore.getState();
+        let targetCourseId = store.activeCourseId;
+        if (!targetCourseId && store.courses.length > 0) {
+          targetCourseId = store.courses[0].id;
         } else if (!targetCourseId) {
-          targetCourseId = addCourse('Mi Semestre');
+          targetCourseId = store.addCourse('Mi Semestre');
         }
 
-        const targetCourse = courses.find((c) => c.id === targetCourseId) || { name: 'tu periodo actual' };
+        const targetCourse = store.courses.find((c) => c.id === targetCourseId) || { name: 'tu periodo actual' };
         const confirmClass = window.confirm(
           `¿Quieres importar la asignatura "${importedClass.name}" en el periodo "${targetCourse.name}"? (Las inasistencias iniciarán en 0)`
         );
 
         if (confirmClass && targetCourseId) {
-          addClass(targetCourseId, importedClass);
+          store.addClass(targetCourseId, importedClass);
           confetti({
             particleCount: 70,
             spread: 80,
@@ -152,7 +152,7 @@ export function App() {
 
       window.history.replaceState({}, document.title, window.location.pathname);
     }
-  }, [importCourse, addCourse, addClass, activeCourseId, courses]);
+  }, []);
 
   // Handlers for Class Modal
   const handleOpenNewClass = () => {
