@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { createPortal } from 'react-dom';
 import type { AttendanceRecord, AttendanceStatus, ClassItem } from '../types';
 import { calculateDangerInfo } from '../utils/status';
 import { DAYS_MAP, getTodayDateString } from '../utils/schedule';
@@ -92,51 +93,51 @@ export const ClassDetailModal: React.FC<ClassDetailModalProps> = ({
       case 'cancelled':
         return (
           <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-xs bg-card-tint-gray text-steel text-[11px] font-semibold border border-hairline">
-            <MinusCircle className="w-3 h-3" /> Sin clase / Cancelada
+            <MinusCircle className="w-3 h-3" /> Cancelada
           </span>
         );
     }
   };
 
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-xs overflow-y-auto">
-      <div className="relative w-full max-w-xl bg-canvas border border-hairline rounded-lg shadow-[0px_16px_48px_-8px_rgba(15,15,15,0.16)] p-6 text-charcoal my-8 max-h-[90vh] flex flex-col">
+  return createPortal(
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/40 backdrop-blur-xs">
+      <div className="relative w-full max-w-xl bg-canvas border border-hairline rounded-lg shadow-xl p-4 sm:p-6 text-charcoal my-auto max-h-[92dvh] sm:max-h-[90vh] flex flex-col overflow-hidden animate-in fade-in duration-150">
         {/* Header */}
-        <div className="flex items-start justify-between pb-3 border-b border-hairline shrink-0">
-          <div className="flex items-center gap-3">
+        <div className="flex items-start justify-between gap-2 pb-3 border-b border-hairline shrink-0">
+          <div className="flex items-center gap-2.5 sm:gap-3 min-w-0 flex-1">
             <div
-              className="w-10 h-10 rounded-md flex items-center justify-center font-bold text-on-primary shadow-xs text-base"
+              className="w-9 h-9 sm:w-10 sm:h-10 rounded-md flex items-center justify-center font-bold text-on-primary shadow-xs text-sm sm:text-base shrink-0"
               style={{ backgroundColor: classItem.color || '#5645d4' }}
             >
               {classItem.name.charAt(0).toUpperCase()}
             </div>
-            <div>
-              <h2 className="text-lg font-bold text-ink tracking-tight">
+            <div className="min-w-0 flex-1">
+              <h2 className="text-base sm:text-lg font-bold text-ink tracking-tight truncate">
                 {classItem.name}
               </h2>
-              <div className="flex flex-wrap items-center gap-3 text-xs text-steel mt-0.5">
+              <div className="flex flex-wrap items-center gap-x-3 gap-y-0.5 text-xs text-steel mt-0.5">
                 {classItem.room && (
-                  <span className="flex items-center gap-1">
-                    <MapPin className="w-3.5 h-3.5 text-stone" />
-                    {classItem.room}
+                  <span className="flex items-center gap-1 min-w-0">
+                    <MapPin className="w-3.5 h-3.5 text-stone shrink-0" />
+                    <span className="truncate max-w-[120px]">{classItem.room}</span>
                   </span>
                 )}
                 {classItem.professor && (
-                  <span className="flex items-center gap-1">
-                    <User className="w-3.5 h-3.5 text-stone" />
-                    {classItem.professor}
+                  <span className="flex items-center gap-1 min-w-0">
+                    <User className="w-3.5 h-3.5 text-stone shrink-0" />
+                    <span className="truncate max-w-[120px]">{classItem.professor}</span>
                   </span>
                 )}
               </div>
             </div>
           </div>
 
-          <div className="flex items-center gap-1">
+          <div className="flex items-center gap-1 shrink-0 ml-1">
             {onShareClass && (
               <button
                 type="button"
                 onClick={() => onShareClass(classItem)}
-                className="p-1.5 text-steel hover:text-ink rounded-sm hover:bg-surface transition-colors"
+                className="p-1.5 text-steel hover:text-ink rounded-md hover:bg-surface transition-colors"
                 title="Compartir asignatura (QR / Enlace)"
               >
                 <QrCode className="w-4 h-4" />
@@ -145,7 +146,7 @@ export const ClassDetailModal: React.FC<ClassDetailModalProps> = ({
             <button
               type="button"
               onClick={() => onEdit(classItem)}
-              className="p-1.5 text-steel hover:text-ink rounded-sm hover:bg-surface transition-colors"
+              className="p-1.5 text-steel hover:text-ink rounded-md hover:bg-surface transition-colors"
               title="Editar clase"
             >
               <Edit3 className="w-4 h-4" />
@@ -153,7 +154,8 @@ export const ClassDetailModal: React.FC<ClassDetailModalProps> = ({
             <button
               type="button"
               onClick={onClose}
-              className="p-1.5 text-steel hover:text-ink rounded-sm hover:bg-surface transition-colors"
+              className="p-1.5 text-steel hover:text-ink rounded-md hover:bg-surface transition-colors"
+              title="Cerrar modal"
             >
               <X className="w-4 h-4" />
             </button>
@@ -161,14 +163,14 @@ export const ClassDetailModal: React.FC<ClassDetailModalProps> = ({
         </div>
 
         {/* Scrollable Content */}
-        <div className="overflow-y-auto pr-1 py-4 space-y-4 flex-1">
+        <div className="overflow-y-auto pr-0.5 py-4 space-y-4 flex-1 min-h-0">
           {/* Danger status visualizer */}
-          <div className="p-4 rounded-md bg-surface border border-hairline space-y-3">
+          <div className="p-3.5 sm:p-4 rounded-md bg-surface border border-hairline space-y-3">
             <div className="flex items-center justify-between">
-              <span className="text-[11px] font-semibold uppercase tracking-wider text-steel">
+              <span className="text-[10px] sm:text-[11px] font-semibold uppercase tracking-wider text-steel">
                 Estado de Inasistencias
               </span>
-              <span className={`text-[11px] font-semibold px-2 py-0.5 rounded-xs border ${dangerInfo.badgeBg}`}>
+              <span className={`text-[10px] sm:text-[11px] font-semibold px-2 py-0.5 rounded-xs border ${dangerInfo.badgeBg}`}>
                 {dangerInfo.label}
               </span>
             </div>
@@ -181,14 +183,14 @@ export const ClassDetailModal: React.FC<ClassDetailModalProps> = ({
             />
 
             {/* Quick Adjustment Buttons */}
-            <div className="pt-2 flex items-center justify-between gap-4 border-t border-hairline-soft">
+            <div className="pt-2 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2.5 border-t border-hairline-soft">
               <span className="text-xs text-steel">Ajuste rápido:</span>
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2 w-full sm:w-auto">
                 <button
                   type="button"
                   disabled={classItem.absences === 0}
                   onClick={() => onDecrement(courseId, classItem.id)}
-                  className="px-3 py-1 rounded-md bg-canvas border border-hairline-strong text-charcoal hover:bg-surface disabled:opacity-30 disabled:pointer-events-none text-xs font-medium flex items-center gap-1.5 transition-colors"
+                  className="flex-1 sm:flex-initial px-3 py-1.5 rounded-md bg-canvas border border-hairline-strong text-charcoal hover:bg-surface disabled:opacity-30 disabled:pointer-events-none text-xs font-medium flex items-center justify-center gap-1.5 transition-colors"
                 >
                   <Minus className="w-3.5 h-3.5" />
                   <span>Restar 1</span>
@@ -196,7 +198,7 @@ export const ClassDetailModal: React.FC<ClassDetailModalProps> = ({
                 <button
                   type="button"
                   onClick={() => onIncrement(courseId, classItem.id)}
-                  className="px-3.5 py-1 rounded-md bg-primary hover:bg-primary-pressed text-on-primary text-xs font-medium flex items-center gap-1.5 shadow-sm transition-all"
+                  className="flex-1 sm:flex-initial px-3.5 py-1.5 rounded-md bg-primary hover:bg-primary-pressed text-on-primary text-xs font-medium flex items-center justify-center gap-1.5 shadow-sm transition-all"
                 >
                   <Plus className="w-3.5 h-3.5" />
                   <span>Sumar 1 Falta</span>
@@ -247,18 +249,18 @@ export const ClassDetailModal: React.FC<ClassDetailModalProps> = ({
 
           {/* Attendance History */}
           <div className="space-y-2.5">
-            <div className="flex items-center justify-between">
-              <h4 className="text-[11px] font-semibold uppercase tracking-wider text-steel flex items-center gap-1.5">
-                <Calendar className="w-3.5 h-3.5 text-stone" />
-                Historial de Registros ({classRecords.length})
+            <div className="flex items-center justify-between gap-2">
+              <h4 className="text-[11px] font-semibold uppercase tracking-wider text-steel flex items-center gap-1.5 truncate">
+                <Calendar className="w-3.5 h-3.5 text-stone shrink-0" />
+                <span className="truncate">Historial de Registros ({classRecords.length})</span>
               </h4>
               <button
                 type="button"
                 onClick={() => setShowAddLog(!showAddLog)}
-                className="text-xs font-medium text-primary hover:text-primary-pressed flex items-center gap-1 bg-card-tint-lavender/50 px-2.5 py-1 rounded-md border border-hairline"
+                className="text-xs font-medium text-primary hover:text-primary-pressed flex items-center gap-1 bg-card-tint-lavender/50 px-2.5 py-1 rounded-md border border-hairline shrink-0"
               >
                 <Plus className="w-3.5 h-3.5" />
-                Registrar evento
+                <span>Registrar evento</span>
               </button>
             </div>
 
@@ -268,7 +270,7 @@ export const ClassDetailModal: React.FC<ClassDetailModalProps> = ({
                 onSubmit={handleAddManualLog}
                 className="p-3 rounded-md bg-surface border border-primary/30 space-y-2.5 animate-in fade-in duration-150"
               >
-                <div className="grid grid-cols-2 gap-2">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                   <div>
                     <label className="block text-[11px] font-semibold text-charcoal mb-1">
                       Tipo de registro
@@ -334,20 +336,20 @@ export const ClassDetailModal: React.FC<ClassDetailModalProps> = ({
                 Aún no hay registros en el historial para esta asignatura.
               </div>
             ) : (
-              <div className="space-y-1.5 max-h-56 overflow-y-auto pr-1">
+              <div className="space-y-1.5 max-h-56 overflow-y-auto pr-0.5">
                 {classRecords.map((rec) => (
                   <div
                     key={rec.id}
-                    className="p-2.5 rounded-md bg-canvas border border-hairline flex items-center justify-between gap-3 text-xs hover:bg-surface/50 transition-colors"
+                    className="p-2.5 rounded-md bg-canvas border border-hairline flex items-center justify-between gap-2.5 text-xs hover:bg-surface/50 transition-colors"
                   >
-                    <div className="flex items-start gap-2.5 min-w-0">
-                      <div className="mt-0.5">{getStatusBadge(rec.status)}</div>
-                      <div className="min-w-0">
+                    <div className="flex items-start gap-2.5 min-w-0 flex-1">
+                      <div className="mt-0.5 shrink-0">{getStatusBadge(rec.status)}</div>
+                      <div className="min-w-0 flex-1">
                         <div className="font-semibold text-ink">
                           {rec.date}
                         </div>
                         {rec.note && (
-                          <div className="text-[11px] text-steel truncate max-w-xs">
+                          <div className="text-[11px] text-steel break-words">
                             {rec.note}
                           </div>
                         )}
@@ -370,33 +372,35 @@ export const ClassDetailModal: React.FC<ClassDetailModalProps> = ({
         </div>
 
         {/* Footer */}
-        <div className="pt-3 border-t border-hairline flex items-center justify-between shrink-0">
+        <div className="pt-3 border-t border-hairline flex flex-col sm:flex-row gap-2.5 sm:items-center sm:justify-between shrink-0">
           {confirmDelete ? (
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 w-full sm:w-auto justify-between sm:justify-start">
               <span className="text-xs text-semantic-error font-semibold">¿Seguro de borrar?</span>
-              <button
-                type="button"
-                onClick={() => {
-                  onDeleteClass(classItem.id);
-                  onClose();
-                }}
-                className="px-3 py-1.5 text-xs font-semibold bg-semantic-error hover:bg-semantic-error/90 text-on-primary rounded-md shadow-xs"
-              >
-                Sí, eliminar
-              </button>
-              <button
-                type="button"
-                onClick={() => setConfirmDelete(false)}
-                className="px-2.5 py-1.5 text-xs text-steel hover:text-ink"
-              >
-                No
-              </button>
+              <div className="flex items-center gap-1.5">
+                <button
+                  type="button"
+                  onClick={() => {
+                    onDeleteClass(classItem.id);
+                    onClose();
+                  }}
+                  className="px-3 py-1.5 text-xs font-semibold bg-semantic-error hover:bg-semantic-error/90 text-on-primary rounded-md shadow-xs"
+                >
+                  Sí, eliminar
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setConfirmDelete(false)}
+                  className="px-2.5 py-1.5 text-xs text-steel hover:text-ink"
+                >
+                  No
+                </button>
+              </div>
             </div>
           ) : (
             <button
               type="button"
               onClick={() => setConfirmDelete(true)}
-              className="px-3 py-1.5 text-xs font-medium text-semantic-error hover:bg-card-tint-rose rounded-md transition-colors flex items-center gap-1.5"
+              className="px-3 py-1.5 text-xs font-medium text-semantic-error hover:bg-card-tint-rose rounded-md transition-colors flex items-center justify-center sm:justify-start gap-1.5 w-full sm:w-auto"
             >
               <Trash2 className="w-3.5 h-3.5" />
               <span>Eliminar Asignatura</span>
@@ -406,12 +410,13 @@ export const ClassDetailModal: React.FC<ClassDetailModalProps> = ({
           <button
             type="button"
             onClick={onClose}
-            className="px-4 py-1.5 text-xs font-medium text-charcoal bg-canvas hover:bg-surface rounded-md border border-hairline-strong transition-colors"
+            className="px-4 py-1.5 text-xs font-medium text-charcoal bg-canvas hover:bg-surface rounded-md border border-hairline-strong transition-colors text-center w-full sm:w-auto"
           >
             Cerrar
           </button>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 };

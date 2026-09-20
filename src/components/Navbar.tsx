@@ -10,7 +10,8 @@ import {
   Download,
   Plus,
   Smartphone,
-  QrCode
+  QrCode,
+  ScanLine
 } from 'lucide-react';
 
 interface BeforeInstallPromptEvent extends Event {
@@ -32,6 +33,7 @@ interface NavbarProps {
   onOpenBackup: () => void;
   onOpenInstallGuide: () => void;
   onOpenShareCourse: () => void;
+  onOpenScanQR?: () => void;
   onNewClass: () => void;
 }
 
@@ -49,6 +51,7 @@ export const Navbar: React.FC<NavbarProps> = ({
   onOpenBackup,
   onOpenInstallGuide,
   onOpenShareCourse,
+  onOpenScanQR,
   onNewClass
 }) => {
   const [deferredPrompt, setDeferredPrompt] = useState<BeforeInstallPromptEvent | null>(null);
@@ -207,6 +210,18 @@ export const Navbar: React.FC<NavbarProps> = ({
             >
               <QrCode className="w-4 h-4" />
             </button>
+
+            {/* Scan QR button */}
+            {onOpenScanQR && (
+              <button
+                type="button"
+                onClick={onOpenScanQR}
+                className="p-2 rounded-md border border-hairline-strong text-charcoal hover:bg-surface hover:text-ink transition-colors shrink-0"
+                title="Escanear código QR (cámara)"
+              >
+                <ScanLine className="w-4 h-4 text-steel hover:text-ink" />
+              </button>
+            )}
 
             {/* Backup / Data button */}
             <button

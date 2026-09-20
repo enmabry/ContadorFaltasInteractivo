@@ -1,13 +1,14 @@
-import React, { useRef, useState } from 'react';
-import type { Course, AttendanceRecord } from '../types';
-import { X, Download, Upload, Trash2, Check, AlertCircle, HardDrive } from 'lucide-react';
+import React, { useState, useRef } from 'react';
+import { createPortal } from 'react-dom';
+import type { AttendanceRecord, Course } from '../types';
+import { Download, Upload, Trash2, X, Check, AlertCircle, HardDrive } from 'lucide-react';
 
 interface BackupModalProps {
   isOpen: boolean;
   onClose: () => void;
   courses: Course[];
   records: AttendanceRecord[];
-  onImport: (courses: Course[], records?: AttendanceRecord[]) => boolean;
+  onImport: (courses: Course[], records: AttendanceRecord[]) => boolean;
   onClearAll: () => void;
 }
 
@@ -90,26 +91,27 @@ export const BackupModal: React.FC<BackupModalProps> = ({
     e.target.value = '';
   };
 
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-xs">
-      <div className="relative w-full max-w-md bg-canvas border border-hairline rounded-lg shadow-[0px_16px_48px_-8px_rgba(15,15,15,0.16)] p-6 text-charcoal">
+  return createPortal(
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/40 backdrop-blur-xs">
+      <div className="relative w-full max-w-md bg-canvas border border-hairline rounded-lg shadow-xl p-4 sm:p-6 text-charcoal my-auto max-h-[92dvh] sm:max-h-[90vh] flex flex-col overflow-hidden animate-in fade-in duration-150">
         {/* Header */}
-        <div className="flex items-center justify-between pb-3 border-b border-hairline">
-          <div className="flex items-center gap-2.5">
-            <div className="p-2 rounded-md bg-card-tint-lavender text-brand-purple-800">
+        <div className="flex items-center justify-between pb-3 border-b border-hairline shrink-0">
+          <div className="flex items-center gap-2.5 min-w-0">
+            <div className="p-2 rounded-md bg-card-tint-lavender text-brand-purple-800 shrink-0">
               <HardDrive className="w-5 h-5" />
             </div>
-            <div>
-              <h2 className="text-base font-semibold text-ink">Copias y Datos</h2>
-              <p className="text-xs text-steel">
-                Gestiona tus datos guardados en el almacenamiento local
+            <div className="min-w-0">
+              <h2 className="text-base font-semibold text-ink truncate">Copias y Datos</h2>
+              <p className="text-[11px] sm:text-xs text-steel truncate">
+                Gestiona tus datos en el almacenamiento local
               </p>
             </div>
           </div>
           <button
             type="button"
             onClick={onClose}
-            className="p-1.5 text-steel hover:text-ink rounded-sm hover:bg-surface transition-colors"
+            className="p-1.5 text-steel hover:text-ink rounded-md hover:bg-surface transition-colors shrink-0 ml-2"
+            title="Cerrar modal"
           >
             <X className="w-4 h-4" />
           </button>
@@ -117,10 +119,11 @@ export const BackupModal: React.FC<BackupModalProps> = ({
 
         {message && (
           <div
-            className={`mt-3 p-3 rounded-md border text-xs flex items-center gap-2 ${message.type === 'success'
+            className={`mt-3 p-3 rounded-md border text-xs flex items-center gap-2 shrink-0 ${
+              message.type === 'success'
                 ? 'bg-card-tint-mint border-brand-green/30 text-brand-green'
                 : 'bg-card-tint-rose border-semantic-error/30 text-semantic-error'
-              }`}
+            }`}
           >
             {message.type === 'success' ? (
               <Check className="w-4 h-4 shrink-0" />
@@ -131,20 +134,20 @@ export const BackupModal: React.FC<BackupModalProps> = ({
           </div>
         )}
 
-        <div className="mt-4 space-y-2.5">
+        <div className="mt-4 space-y-2.5 flex-1 overflow-y-auto pr-0.5 min-h-0">
           {/* Export button */}
           <button
             type="button"
             onClick={handleExport}
             className="w-full p-3 rounded-md bg-surface border border-hairline hover:bg-hairline-soft text-left flex items-center justify-between group transition-colors"
           >
-            <div className="flex items-center gap-3">
-              <div className="p-1.5 rounded-xs bg-card-tint-lavender text-brand-purple-800">
+            <div className="flex items-center gap-3 min-w-0">
+              <div className="p-1.5 rounded-xs bg-card-tint-lavender text-brand-purple-800 shrink-0">
                 <Download className="w-4 h-4" />
               </div>
-              <div>
-                <h4 className="text-xs font-semibold text-ink">Exportar Copia de Seguridad</h4>
-                <p className="text-[11px] text-steel">Descarga un archivo JSON con tus asignaturas y faltas</p>
+              <div className="min-w-0">
+                <h4 className="text-xs font-semibold text-ink truncate">Exportar Copia de Seguridad</h4>
+                <p className="text-[11px] text-steel truncate">Descarga un archivo JSON con tus asignaturas y faltas</p>
               </div>
             </div>
           </button>
@@ -162,13 +165,13 @@ export const BackupModal: React.FC<BackupModalProps> = ({
             onClick={() => fileInputRef.current?.click()}
             className="w-full p-3 rounded-md bg-surface border border-hairline hover:bg-hairline-soft text-left flex items-center justify-between group transition-colors"
           >
-            <div className="flex items-center gap-3">
-              <div className="p-1.5 rounded-xs bg-card-tint-sky text-link-blue">
+            <div className="flex items-center gap-3 min-w-0">
+              <div className="p-1.5 rounded-xs bg-card-tint-sky text-link-blue shrink-0">
                 <Upload className="w-4 h-4" />
               </div>
-              <div>
-                <h4 className="text-xs font-semibold text-ink">Importar Copia de Seguridad</h4>
-                <p className="text-[11px] text-steel">Restaura tus datos desde un archivo JSON</p>
+              <div className="min-w-0">
+                <h4 className="text-xs font-semibold text-ink truncate">Importar Copia de Seguridad</h4>
+                <p className="text-[11px] text-steel truncate">Restaura tus datos desde un archivo JSON</p>
               </div>
             </div>
           </button>
@@ -205,7 +208,7 @@ export const BackupModal: React.FC<BackupModalProps> = ({
               <button
                 type="button"
                 onClick={() => setConfirmClear(true)}
-                className="w-full py-1.5 text-center text-xs font-medium text-semantic-error hover:text-brand-pink-deep transition-colors flex items-center justify-center gap-1.5"
+                className="w-full py-2 text-center text-xs font-medium text-semantic-error hover:text-brand-pink-deep transition-colors flex items-center justify-center gap-1.5"
               >
                 <Trash2 className="w-3.5 h-3.5" />
                 <span>Borrar todos los datos locales</span>
@@ -214,16 +217,17 @@ export const BackupModal: React.FC<BackupModalProps> = ({
           </div>
         </div>
 
-        <div className="mt-4 pt-3 border-t border-hairline flex justify-end">
+        <div className="mt-4 pt-3 border-t border-hairline flex justify-end shrink-0">
           <button
             type="button"
             onClick={onClose}
-            className="px-4 py-1.5 text-xs font-medium text-charcoal hover:bg-surface border border-hairline-strong rounded-md transition-colors"
+            className="w-full sm:w-auto px-4 py-1.5 text-xs font-medium text-charcoal hover:bg-surface border border-hairline-strong rounded-md transition-colors text-center"
           >
             Cerrar
           </button>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 };

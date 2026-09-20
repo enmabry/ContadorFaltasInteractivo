@@ -231,6 +231,7 @@ export function App() {
         onOpenBackup={() => setIsBackupModalOpen(true)}
         onOpenInstallGuide={() => setIsInstallGuideOpen(true)}
         onOpenShareCourse={() => setIsShareModalOpen(true)}
+        onOpenScanQR={() => setIsScanQRModalOpen(true)}
         onNewClass={handleOpenNewClass}
       />
 
@@ -308,6 +309,7 @@ export function App() {
         onSave={handleSaveClass}
         initialData={editingClass}
         courseId={activeCourse?.id}
+        onOpenScanQR={() => setIsScanQRModalOpen(true)}
       />
 
       <CourseModal

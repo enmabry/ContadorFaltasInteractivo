@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { createPortal } from 'react-dom';
 import type { ClassItem, Schedule } from '../types';
 import { DAYS_MAP } from '../utils/schedule';
-import { X, Plus, Trash2, Calendar, Clock, BookOpen, AlertCircle } from 'lucide-react';
+import { X, Plus, Trash2, Calendar, Clock, BookOpen, AlertCircle, ScanLine } from 'lucide-react';
 import { CalendarImportBtn } from './CalendarImportBtn';
 
 interface ClassModalProps {
@@ -11,6 +11,7 @@ interface ClassModalProps {
   onSave: (data: Omit<ClassItem, 'id' | 'createdAt'>) => void;
   initialData?: ClassItem | null;
   courseId?: string;
+  onOpenScanQR?: () => void;
 }
 
 const NOTION_COLOR_PRESETS = [
@@ -29,7 +30,8 @@ export const ClassModal: React.FC<ClassModalProps> = ({
   onClose,
   onSave,
   initialData,
-  courseId
+  courseId,
+  onOpenScanQR
 }) => {
   const [name, setName] = useState(() => initialData?.name || '');
   const [maxAbsences, setMaxAbsences] = useState(() => initialData?.maxAbsences || 5);
@@ -135,14 +137,30 @@ export const ClassModal: React.FC<ClassModalProps> = ({
             <div className="p-3 sm:p-3.5 bg-surface border border-hairline rounded-md">
               <div className="mb-2">
                 <p className="text-xs font-semibold text-ink">¿Prefieres importar tu horario?</p>
-                <p className="text-[11px] text-steel">Carga tus asignaturas y horas automáticamente desde tu cuenta</p>
+                <p className="text-[11px] text-steel">Carga tus asignaturas desde tu cuenta o escanea el código de un compañero</p>
               </div>
-              <CalendarImportBtn
-                courseId={courseId}
-                variant="full"
-                label="Sincronizar horario con Google Calendar"
-                onSuccess={onClose}
-              />
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-2.5">
+                <CalendarImportBtn
+                  courseId={courseId}
+                  variant="full"
+                  label="Google Calendar"
+                  onSuccess={onClose}
+                />
+                {onOpenScanQR && (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      onClose();
+                      onOpenScanQR();
+                    }}
+                    className="w-full flex items-center justify-center gap-2 py-2.5 px-4 text-xs font-medium text-charcoal bg-canvas hover:bg-hairline-soft border border-hairline-strong rounded-md transition-colors shadow-xs"
+                    title="Escanear código QR de una asignatura o periodo"
+                  >
+                    <ScanLine className="w-3.5 h-3.5 text-primary" />
+                    <span>Escanear Código QR</span>
+                  </button>
+                )}
+              </div>
               <div className="relative mt-3 mb-1 text-center">
                 <div className="absolute inset-0 flex items-center">
                   <div className="w-full border-t border-hairline" />

@@ -212,7 +212,7 @@ export const CalendarImportBtn: React.FC<CalendarImportBtnProps> = ({
     variant === 'hero'
       ? 'w-full sm:w-auto flex items-center justify-center gap-2 px-3.5 py-2 text-xs font-medium text-charcoal bg-canvas hover:bg-surface border border-hairline-strong rounded-md transition-all shadow-xs'
       : variant === 'full'
-      ? 'w-full flex items-center justify-center gap-2 py-2.5 px-4 text-xs font-medium text-charcoal bg-surface hover:bg-hairline border border-hairline-strong rounded-md transition-colors'
+      ? 'w-full flex items-center justify-center gap-2 py-2.5 px-4 text-xs font-medium text-charcoal bg-canvas hover:bg-hairline-soft border border-hairline-strong rounded-md transition-colors shadow-xs'
       : 'w-full sm:w-auto flex items-center justify-center gap-2 px-3.5 py-2 sm:py-1.5 text-xs font-medium text-charcoal bg-canvas hover:bg-surface border border-hairline-strong rounded-md transition-colors shadow-xs';
 
   return (
@@ -230,7 +230,7 @@ export const CalendarImportBtn: React.FC<CalendarImportBtnProps> = ({
           ) : (
             <GoogleIcon />
           )}
-          <span>{loading ? 'Leyendo calendario...' : label}</span>
+          <span className="text-center truncate sm:whitespace-normal">{loading ? 'Leyendo calendario...' : label}</span>
         </button>
       </div>
 
