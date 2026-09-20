@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { createPortal } from 'react-dom';
 import type { ClassItem, Schedule } from '../types';
 import { DAYS_MAP } from '../utils/schedule';
 import { X, Calendar, Clock, MapPin, Check, CheckSquare, Square } from 'lucide-react';
@@ -62,19 +63,19 @@ export const CalendarPreviewModal: React.FC<CalendarPreviewModalProps> = ({
     onClose();
   };
 
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/40 backdrop-blur-xs">
-      <div className="w-full max-w-2xl bg-canvas border border-hairline rounded-lg shadow-xl flex flex-col max-h-[90vh] overflow-hidden">
+  return createPortal(
+    <div className="fixed inset-0 z-[60] flex items-center justify-center p-3 sm:p-4 bg-black/50 backdrop-blur-xs">
+      <div className="w-full max-w-2xl bg-canvas border border-hairline rounded-lg shadow-xl flex flex-col max-h-[90dvh] sm:max-h-[85vh] overflow-hidden">
         {/* 1. Header (Fijo): shrink-0 evita que se aplaste */}
         <div className="shrink-0 flex items-center justify-between px-4 py-3 border-b border-hairline bg-surface">
-          <div className="flex items-center gap-2">
-            <Calendar className="w-4 h-4 text-brand-green" />
-            <h3 className="text-sm font-semibold text-charcoal">Vista Previa de Clases</h3>
+          <div className="flex items-center gap-2 min-w-0">
+            <Calendar className="w-4 h-4 text-brand-green shrink-0" />
+            <h3 className="text-sm font-semibold text-charcoal truncate">Vista Previa de Clases</h3>
           </div>
           <button
             type="button"
             onClick={onClose}
-            className="p-1 text-steel hover:text-ink rounded-md hover:bg-hairline transition-colors"
+            className="p-1 text-steel hover:text-ink rounded-md hover:bg-hairline transition-colors shrink-0"
             title="Cerrar modal"
           >
             <X className="w-4 h-4" />
@@ -84,11 +85,11 @@ export const CalendarPreviewModal: React.FC<CalendarPreviewModalProps> = ({
         {/* 2. Cuerpo (Scrolleable): flex-1 hace que ocupe el espacio restante y overflow-y-auto activa el scroll interno */}
         <div className="flex-1 overflow-y-auto p-4 space-y-3 min-h-0">
           {/* Barra azul de "Detectadas" */}
-          <div className="p-3 rounded-md bg-card-tint-sky/40 border border-link-blue/20 text-xs text-charcoal flex items-center justify-between">
-            <span className="text-xs">
+          <div className="p-3 rounded-md bg-card-tint-sky/40 border border-link-blue/20 text-xs text-charcoal flex items-center justify-between gap-2">
+            <span className="text-xs truncate">
               Detectadas: <strong>{classes.length}</strong> materias en tu calendario
             </span>
-            <span className="text-[11px] font-semibold text-link-blue">
+            <span className="text-[11px] font-semibold text-link-blue shrink-0">
               {selectedCount} seleccionadas
             </span>
           </div>
@@ -127,7 +128,7 @@ export const CalendarPreviewModal: React.FC<CalendarPreviewModalProps> = ({
                         className="w-2.5 h-2.5 rounded-full shrink-0"
                         style={{ backgroundColor: cls.color }}
                       />
-                      <h4 className="text-xs sm:text-sm font-bold text-ink truncate">
+                      <h4 className="text-xs sm:text-sm font-bold text-ink break-words">
                         {cls.name}
                       </h4>
                     </div>
@@ -198,6 +199,7 @@ export const CalendarPreviewModal: React.FC<CalendarPreviewModalProps> = ({
           </button>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 };
