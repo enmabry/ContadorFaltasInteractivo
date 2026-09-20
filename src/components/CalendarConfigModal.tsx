@@ -102,8 +102,37 @@ export const CalendarConfigModal: React.FC<CalendarConfigModalProps> = ({
               required
             />
             <span className="text-[11px] text-steel mt-1 block">
-              Se guarda en tu navegador local (`localStorage`) o puedes definirlo como `VITE_GOOGLE_CLIENT_ID` en `.env.local`.
+              Se guarda en tu navegador local (`localStorage`) o en la variable <code>VITE_GOOGLE_CLIENT_ID</code>.
             </span>
+          </div>
+
+          {/* Current Origin Box for Google Cloud */}
+          <div className="p-3 rounded-md bg-card-tint-amber/40 border border-amber-300/60 text-xs space-y-1.5">
+            <div className="flex items-center justify-between">
+              <span className="font-semibold text-ink flex items-center gap-1.5">
+                <AlertCircle className="w-3.5 h-3.5 text-amber-700 shrink-0" />
+                <span>Solución a "Error 400: origin_mismatch":</span>
+              </span>
+              <button
+                type="button"
+                onClick={() => {
+                  navigator.clipboard.writeText(window.location.origin);
+                  alert(`Copiado al portapapeles: ${window.location.origin}`);
+                }}
+                className="text-[11px] font-medium text-primary hover:underline px-1.5 py-0.5 rounded bg-canvas border border-hairline"
+              >
+                Copiar origen
+              </button>
+            </div>
+            <p className="text-[11px] text-charcoal">
+              En Google Cloud Console, dentro de tu ID de cliente OAuth, en <strong>"Orígenes autorizados de JavaScript"</strong>, debes agregar exactamente:
+            </p>
+            <code className="block p-1.5 bg-canvas rounded border border-hairline font-mono text-xs font-semibold text-ink select-all">
+              {typeof window !== 'undefined' ? window.location.origin : 'http://localhost:5173'}
+            </code>
+            <p className="text-[10px] text-steel">
+              💡 <em>Consejo: Agrega también <code>http://localhost:5173</code>, <code>http://localhost:5174</code> y <code>http://127.0.0.1:5173</code> sin barra final (<code>/</code>). Tras guardar en Google, espera 1 o 2 minutos a que Google sincronice sus servidores.</em>
+            </p>
           </div>
 
           {/* Setup steps guide */}
@@ -111,30 +140,25 @@ export const CalendarConfigModal: React.FC<CalendarConfigModalProps> = ({
             <div className="flex items-center justify-between font-semibold text-ink">
               <span className="flex items-center gap-1.5">
                 <HelpCircle className="w-3.5 h-3.5 text-link-blue" />
-                ¿Cómo obtener tu Client ID en 2 minutos?
+                Pasos en Google Cloud Console:
               </span>
               <a
-                href="https://console.cloud.google.com/"
+                href="https://console.cloud.google.com/apis/credentials"
                 target="_blank"
                 rel="noreferrer"
                 className="text-link-blue hover:text-link-blue-pressed flex items-center gap-1 text-[11px]"
               >
-                <span>Abrir Google Cloud</span>
+                <span>Ir a Credenciales</span>
                 <ExternalLink className="w-3 h-3" />
               </a>
             </div>
 
-            <ol className="list-decimal pl-4 space-y-1 text-steel text-[11px] leading-relaxed">
-              <li>Crea un proyecto en <strong>Google Cloud Console</strong>.</li>
-              <li>En <em>API y Servicios &gt; Biblioteca</em>, busca y habilita <strong>Google Calendar API</strong>.</li>
-              <li>En <em>Pantalla de consentimiento de OAuth</em>, elige <strong>Externa</strong> y añade el scope <code>.../auth/calendar.readonly</code>.</li>
-              <li>En <em>Credenciales &gt; Crear credenciales &gt; ID de cliente de OAuth</em>:
-                <ul className="list-disc pl-4 mt-0.5 text-stone">
-                  <li>Tipo: <strong>Aplicación web</strong>.</li>
-                  <li>Orígenes autorizados de JS: añade <code>http://localhost:5173</code> y la URL de tu app en Vercel.</li>
-                </ul>
-              </li>
-              <li>Copia el <strong>Client ID</strong> generado y pégalo arriba.</li>
+            <ol className="list-decimal pl-4 space-y-1.5 text-steel text-[11px] leading-relaxed">
+              <li>Haz clic en tu <strong>ID de cliente de OAuth 2.0</strong> en la lista de Credenciales.</li>
+              <li>Baja hasta la sección <strong>"Orígenes autorizados de JavaScript"</strong>.</li>
+              <li>Pulsa <strong>"+ AGREGAR URI"</strong> y pega <code>{typeof window !== 'undefined' ? window.location.origin : 'http://localhost:5173'}</code>.</li>
+              <li>Haz clic en <strong>Guardar</strong> al final de la página.</li>
+              <li>Espera 1-2 minutos y vuelve a pulsar el botón de Google Calendar.</li>
             </ol>
           </div>
 

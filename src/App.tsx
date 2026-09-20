@@ -235,7 +235,7 @@ export function App() {
 
       {/* Modals */}
       <ClassModal
-        key={editingClass ? `edit-${editingClass.id}` : `new-${isClassModalOpen ? 'open' : 'closed'}`}
+        key={editingClass ? `class-edit-${editingClass.id}` : `class-new-${isClassModalOpen ? 'open' : 'closed'}`}
         isOpen={isClassModalOpen}
         onClose={() => setIsClassModalOpen(false)}
         onSave={handleSaveClass}
@@ -244,7 +244,7 @@ export function App() {
       />
 
       <CourseModal
-        key={editingCourse ? `edit-${editingCourse.id}` : `new-${isCourseModalOpen ? 'open' : 'closed'}`}
+        key={editingCourse ? `course-edit-${editingCourse.id}` : `course-new-${isCourseModalOpen ? 'open' : 'closed'}`}
         isOpen={isCourseModalOpen}
         onClose={() => setIsCourseModalOpen(false)}
         onSave={handleSaveCourse}
