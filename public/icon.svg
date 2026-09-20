@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="none">
+  <defs>
+    <linearGradient id="bg-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4f46e5" />
+      <stop offset="50%" stop-color="#6366f1" />
+      <stop offset="100%" stop-color="#ec4899" />
+    </linearGradient>
+    <linearGradient id="shield-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.9" />
+      <stop offset="100%" stop-color="#e0e7ff" stop-opacity="0.7" />
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="128" fill="url(#bg-grad)" />
+  <g transform="translate(106, 106) scale(0.585)">
+    <!-- Shield / Badge shape -->
+    <path d="M256 32 C160 32, 96 64, 48 96 C48 240, 96 400, 256 480 C416 400, 464 240, 464 96 C416 64, 352 32, 256 32 Z" fill="url(#shield-grad)" />
+    <!-- Check & Alert symbol -->
+    <circle cx="256" cy="240" r="130" fill="#0f172a" />
+    <!-- Graduation / Clock / Checkmark -->
+    <path d="M200 240 L240 280 L320 190" stroke="#10b981" stroke-width="32" stroke-linecap="round" stroke-linejoin="round" />
+    <circle cx="330" cy="160" r="28" fill="#ef4444" />
+    <path d="M330 148 L330 162" stroke="#ffffff" stroke-width="6" stroke-linecap="round" />
+    <circle cx="330" cy="172" r="3" fill="#ffffff" />
+  </g>
+</svg>
