@@ -11,7 +11,8 @@ import {
   BookOpen,
   XCircle,
   TrendingDown,
-  Sparkles
+  Sparkles,
+  QrCode
 } from 'lucide-react';
 
 interface DashboardViewProps {
@@ -25,6 +26,7 @@ interface DashboardViewProps {
   onViewClassDetails: (classItem: ClassItem) => void;
   onNewClass: () => void;
   onLoadDemo: () => void;
+  onShareCourse?: () => void;
 }
 
 type FilterType = 'all' | 'danger' | 'safe' | 'failed';
@@ -39,7 +41,8 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
   onDeleteClass,
   onViewClassDetails,
   onNewClass,
-  onLoadDemo
+  onLoadDemo,
+  onShareCourse
 }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [activeFilter, setActiveFilter] = useState<FilterType>('all');
@@ -104,6 +107,18 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
           </div>
 
           <div className="flex flex-wrap items-center gap-2.5 shrink-0">
+            {onShareCourse && (
+              <button
+                type="button"
+                onClick={onShareCourse}
+                className="flex items-center gap-2 px-3.5 py-1.5 text-xs font-medium text-charcoal bg-canvas hover:bg-surface border border-hairline-strong rounded-md transition-colors shadow-xs"
+                title="Compartir este periodo vía QR o enlace"
+              >
+                <QrCode className="w-3.5 h-3.5 text-steel" />
+                <span>Compartir Semestre</span>
+              </button>
+            )}
+
             <CalendarImportBtn courseId={courseId} />
 
             {/* Signature Purple Rectangular Button */}
@@ -293,6 +308,16 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
                   <span>Crear Asignatura</span>
                 </button>
                 <CalendarImportBtn courseId={courseId} />
+                {onShareCourse && (
+                  <button
+                    type="button"
+                    onClick={onShareCourse}
+                    className="px-3.5 py-2 rounded-md bg-canvas hover:bg-surface text-charcoal border border-hairline-strong text-xs font-medium flex items-center gap-1.5"
+                  >
+                    <QrCode className="w-3.5 h-3.5 text-steel" />
+                    <span>Compartir QR</span>
+                  </button>
+                )}
                 <button
                   type="button"
                   onClick={onLoadDemo}

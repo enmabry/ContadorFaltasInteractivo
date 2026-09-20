@@ -17,6 +17,7 @@ interface AttendanceStoreState {
   // Course Actions
   setActiveCourse: (courseId: string) => void;
   addCourse: (name: string, color?: string) => string;
+  importCourse: (course: Course) => string;
   updateCourse: (id: string, name: string, color?: string) => void;
   deleteCourse: (id: string) => void;
 
@@ -70,6 +71,28 @@ export const useAttendanceStore = create<AttendanceStoreState>()(
           activeCourseId: newCourse.id
         }));
         return newCourse.id;
+      },
+
+      importCourse: (course) => {
+        const uniqueCourseId = `course-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`;
+        const importedCourse: Course = {
+          ...course,
+          id: uniqueCourseId,
+          createdAt: Date.now(),
+          classes: (course.classes || []).map((cls, idx) => ({
+            ...cls,
+            id: `cls-${Date.now()}-${idx}-${Math.random().toString(36).substring(2, 6)}`,
+            absences: 0,
+            createdAt: Date.now()
+          }))
+        };
+
+        set((state) => ({
+          courses: [...state.courses, importedCourse],
+          activeCourseId: importedCourse.id
+        }));
+
+        return importedCourse.id;
       },
 
       updateCourse: (id, name, color) => {

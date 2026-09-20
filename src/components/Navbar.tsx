@@ -9,7 +9,8 @@ import {
   Bell,
   Download,
   Plus,
-  Smartphone
+  Smartphone,
+  QrCode
 } from 'lucide-react';
 
 interface BeforeInstallPromptEvent extends Event {
@@ -30,6 +31,7 @@ interface NavbarProps {
   onOpenCatchUp: () => void;
   onOpenBackup: () => void;
   onOpenInstallGuide: () => void;
+  onOpenShareCourse: () => void;
   onNewClass: () => void;
 }
 
@@ -46,6 +48,7 @@ export const Navbar: React.FC<NavbarProps> = ({
   onOpenCatchUp,
   onOpenBackup,
   onOpenInstallGuide,
+  onOpenShareCourse,
   onNewClass
 }) => {
   const [deferredPrompt, setDeferredPrompt] = useState<BeforeInstallPromptEvent | null>(null);
@@ -174,6 +177,17 @@ export const Navbar: React.FC<NavbarProps> = ({
             >
               {deferredPrompt ? <Download className="w-3.5 h-3.5 text-primary" /> : <Smartphone className="w-3.5 h-3.5 text-steel" />}
               <span className="hidden sm:inline">Instalar App</span>
+            </button>
+
+            {/* Share Course / QR button */}
+            <button
+              type="button"
+              onClick={onOpenShareCourse}
+              disabled={!activeCourseId}
+              className="p-2 rounded-md border border-hairline-strong text-charcoal hover:bg-surface hover:text-ink transition-colors disabled:opacity-40"
+              title="Compartir periodo (Código QR / Enlace)"
+            >
+              <QrCode className="w-4 h-4" />
             </button>
 
             {/* Backup / Data button */}

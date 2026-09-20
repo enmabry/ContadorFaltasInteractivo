@@ -1,7 +1,9 @@
 import { useState, useEffect, useMemo } from 'react';
+import confetti from 'canvas-confetti';
 import { useAttendanceStore } from './store/useAttendanceStore';
 import type { ClassItem, Course } from './types';
 import { detectPendingCatchUp } from './utils/schedule';
+import { decodeCourseFromURL } from './utils/share';
 import { Navbar } from './components/Navbar';
 import { DashboardView } from './views/DashboardView';
 import { TodayScheduleView } from './views/TodayScheduleView';
@@ -12,6 +14,7 @@ import { ClassDetailModal } from './components/ClassDetailModal';
 import { CatchUpModal } from './components/CatchUpModal';
 import { BackupModal } from './components/BackupModal';
 import { InstallGuideModal } from './components/InstallGuideModal';
+import { ShareCourseModal } from './components/ShareCourseModal';
 
 export function App() {
   const {
@@ -23,6 +26,7 @@ export function App() {
     setActiveTab,
     setActiveCourse,
     addCourse,
+    importCourse,
     updateCourse,
     deleteCourse,
     addClass,
@@ -51,6 +55,7 @@ export function App() {
   const [isBackupModalOpen, setIsBackupModalOpen] = useState(false);
   const [isCatchUpModalOpen, setIsCatchUpModalOpen] = useState(false);
   const [isInstallGuideOpen, setIsInstallGuideOpen] = useState(false);
+  const [isShareModalOpen, setIsShareModalOpen] = useState(false);
   const [hasAutoOpenedCatchUp, setHasAutoOpenedCatchUp] = useState(false);
 
   // Active course
@@ -85,6 +90,38 @@ export function App() {
       return () => clearTimeout(timer);
     }
   }, [pendingPrompts.length, hasAutoOpenedCatchUp]);
+
+  // Intercept shared course from URL (?share=...)
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const shareHash = params.get('share');
+
+    if (shareHash) {
+      const importedCourse = decodeCourseFromURL(shareHash);
+
+      if (importedCourse) {
+        const classesCount = importedCourse.classes?.length || 0;
+        const confirmImport = window.confirm(
+          `¿Quieres importar el periodo "${importedCourse.name}" con ${classesCount} ${
+            classesCount === 1 ? 'asignatura' : 'asignaturas'
+          }? (Las faltas iniciarán en 0)`
+        );
+
+        if (confirmImport) {
+          importCourse(importedCourse);
+          confetti({
+            particleCount: 70,
+            spread: 80,
+            origin: { y: 0.6 }
+          });
+          alert(`¡Periodo "${importedCourse.name}" importado con éxito! 🎉`);
+        }
+      }
+
+      // Limpiamos el token de la URL para que no quede saturada
+      window.history.replaceState({}, document.title, window.location.pathname);
+    }
+  }, [importCourse]);
 
   // Handlers for Class Modal
   const handleOpenNewClass = () => {
@@ -160,6 +197,7 @@ export function App() {
         onOpenCatchUp={() => setIsCatchUpModalOpen(true)}
         onOpenBackup={() => setIsBackupModalOpen(true)}
         onOpenInstallGuide={() => setIsInstallGuideOpen(true)}
+        onOpenShareCourse={() => setIsShareModalOpen(true)}
         onNewClass={handleOpenNewClass}
       />
 
@@ -202,6 +240,7 @@ export function App() {
                 onViewClassDetails={handleViewClassDetails}
                 onNewClass={handleOpenNewClass}
                 onLoadDemo={resetToDemo}
+                onShareCourse={() => setIsShareModalOpen(true)}
               />
             )}
 
@@ -298,6 +337,12 @@ export function App() {
       <InstallGuideModal
         isOpen={isInstallGuideOpen}
         onClose={() => setIsInstallGuideOpen(false)}
+      />
+
+      <ShareCourseModal
+        course={activeCourse}
+        isOpen={isShareModalOpen}
+        onClose={() => setIsShareModalOpen(false)}
       />
     </div>
   );
