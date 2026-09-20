@@ -11,8 +11,8 @@ import {
   BookOpen,
   XCircle,
   TrendingDown,
-  Sparkles,
-  QrCode
+  QrCode,
+  ScanLine
 } from 'lucide-react';
 
 interface DashboardViewProps {
@@ -25,7 +25,7 @@ interface DashboardViewProps {
   onDeleteClass: (classId: string) => void;
   onViewClassDetails: (classItem: ClassItem) => void;
   onNewClass: () => void;
-  onLoadDemo: () => void;
+  onOpenScanQR?: () => void;
   onShareCourse?: () => void;
   onShareClass?: (classItem: ClassItem) => void;
 }
@@ -42,7 +42,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
   onDeleteClass,
   onViewClassDetails,
   onNewClass,
-  onLoadDemo,
+  onOpenScanQR,
   onShareCourse,
   onShareClass
 }) => {
@@ -119,6 +119,18 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
               >
                 <QrCode className="w-3.5 h-3.5 text-steel" />
                 <span>Compartir Semestre</span>
+              </button>
+            )}
+
+            {onOpenScanQR && (
+              <button
+                type="button"
+                onClick={onOpenScanQR}
+                className="w-full sm:w-auto flex items-center justify-center gap-2 px-3.5 py-2 sm:py-1.5 text-xs font-medium text-charcoal bg-canvas hover:bg-surface border border-hairline-strong rounded-md transition-colors shadow-xs"
+                title="Escanear código QR de clase o semestre"
+              >
+                <ScanLine className="w-3.5 h-3.5 text-steel" />
+                <span>Escanear QR</span>
               </button>
             )}
 
@@ -321,14 +333,16 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
                     <span>Compartir QR</span>
                   </button>
                 )}
-                <button
-                  type="button"
-                  onClick={onLoadDemo}
-                  className="w-full sm:w-auto px-3.5 py-2 rounded-md bg-canvas hover:bg-surface text-charcoal border border-hairline-strong text-xs font-medium flex items-center justify-center gap-1.5"
-                >
-                  <Sparkles className="w-3.5 h-3.5 text-brand-orange" />
-                  <span>Cargar Demo</span>
-                </button>
+                {onOpenScanQR && (
+                  <button
+                    type="button"
+                    onClick={onOpenScanQR}
+                    className="w-full sm:w-auto px-3.5 py-2 rounded-md bg-canvas hover:bg-surface text-charcoal border border-hairline-strong text-xs font-medium flex items-center justify-center gap-1.5"
+                  >
+                    <ScanLine className="w-3.5 h-3.5 text-steel" />
+                    <span>Escanear QR</span>
+                  </button>
+                )}
               </div>
             </>
           ) : (

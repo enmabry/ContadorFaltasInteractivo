@@ -16,6 +16,8 @@ import { BackupModal } from './components/BackupModal';
 import { InstallGuideModal } from './components/InstallGuideModal';
 import { ShareCourseModal } from './components/ShareCourseModal';
 import { ShareClassModal } from './components/ShareClassModal';
+import { ScanQRModal } from './components/ScanQRModal';
+import { ScanLine } from 'lucide-react';
 
 export function App() {
   const {
@@ -37,7 +39,6 @@ export function App() {
     recordAttendance,
     deleteAttendanceRecord,
     dismissCatchUp,
-    resetToDemo,
     clearAllData,
     importData
   } = useAttendanceStore();
@@ -56,6 +57,7 @@ export function App() {
   const [isCatchUpModalOpen, setIsCatchUpModalOpen] = useState(false);
   const [isInstallGuideOpen, setIsInstallGuideOpen] = useState(false);
   const [isShareModalOpen, setIsShareModalOpen] = useState(false);
+  const [isScanQRModalOpen, setIsScanQRModalOpen] = useState(false);
   const [sharingClass, setSharingClass] = useState<ClassItem | null>(null);
   const [hasAutoOpenedCatchUp, setHasAutoOpenedCatchUp] = useState(false);
 
@@ -238,7 +240,7 @@ export function App() {
           <div className="p-10 text-center rounded-lg bg-canvas border border-hairline space-y-3.5 max-w-md mx-auto my-12 shadow-xs">
             <h2 className="text-lg font-bold text-ink">No tienes periodos creados</h2>
             <p className="text-xs text-steel">
-              Crea tu primer periodo académico o carga los datos de ejemplo para empezar a llevar el control de tus faltas.
+              Crea tu primer periodo académico o escanea un código QR para importar tus asignaturas.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-2.5 pt-2">
               <button
@@ -250,10 +252,11 @@ export function App() {
               </button>
               <button
                 type="button"
-                onClick={resetToDemo}
-                className="w-full sm:w-auto px-4 py-2 rounded-md bg-canvas hover:bg-surface text-charcoal text-xs font-medium border border-hairline-strong"
+                onClick={() => setIsScanQRModalOpen(true)}
+                className="w-full sm:w-auto px-4 py-2 rounded-md bg-canvas hover:bg-surface text-charcoal text-xs font-medium border border-hairline-strong flex items-center justify-center gap-1.5 shadow-xs"
               >
-                Cargar Demo
+                <ScanLine className="w-3.5 h-3.5 text-steel" />
+                <span>Escanear QR</span>
               </button>
             </div>
           </div>
@@ -270,7 +273,7 @@ export function App() {
                 onDeleteClass={(classId) => deleteClass(activeCourse.id, classId)}
                 onViewClassDetails={handleViewClassDetails}
                 onNewClass={handleOpenNewClass}
-                onLoadDemo={resetToDemo}
+                onOpenScanQR={() => setIsScanQRModalOpen(true)}
                 onShareCourse={() => setIsShareModalOpen(true)}
                 onShareClass={(cls) => setSharingClass(cls)}
               />
@@ -374,6 +377,11 @@ export function App() {
         classItem={sharingClass}
         isOpen={Boolean(sharingClass)}
         onClose={() => setSharingClass(null)}
+      />
+
+      <ScanQRModal
+        isOpen={isScanQRModalOpen}
+        onClose={() => setIsScanQRModalOpen(false)}
       />
     </div>
   );

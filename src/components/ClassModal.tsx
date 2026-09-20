@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { createPortal } from 'react-dom';
 import type { ClassItem, Schedule } from '../types';
 import { DAYS_MAP } from '../utils/schedule';
 import { X, Plus, Trash2, Calendar, Clock, BookOpen, AlertCircle } from 'lucide-react';
@@ -93,20 +94,20 @@ export const ClassModal: React.FC<ClassModalProps> = ({
     onClose();
   };
 
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-xs overflow-y-auto">
-      <div className="relative w-full max-w-lg bg-canvas border border-hairline rounded-lg shadow-[0px_16px_48px_-8px_rgba(15,15,15,0.16)] p-6 text-charcoal my-8">
-        {/* Header */}
-        <div className="flex items-center justify-between pb-3 border-b border-hairline">
-          <div className="flex items-center gap-2.5">
-            <div className="p-2 rounded-md bg-card-tint-lavender text-brand-purple-800">
+  return createPortal(
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/40 backdrop-blur-xs">
+      <div className="relative w-full max-w-lg bg-canvas border border-hairline rounded-lg shadow-xl text-charcoal my-auto max-h-[92dvh] sm:max-h-[90vh] flex flex-col overflow-hidden animate-in fade-in duration-150">
+        {/* Header (Fijo) */}
+        <div className="shrink-0 flex items-center justify-between px-4 sm:px-6 py-3.5 border-b border-hairline bg-surface/50">
+          <div className="flex items-center gap-2.5 min-w-0">
+            <div className="p-2 rounded-md bg-card-tint-lavender text-brand-purple-800 shrink-0">
               <BookOpen className="w-5 h-5" />
             </div>
-            <div>
-              <h2 className="text-lg font-semibold text-ink">
+            <div className="min-w-0">
+              <h2 className="text-base sm:text-lg font-semibold text-ink truncate">
                 {initialData ? 'Editar Asignatura' : 'Nueva Asignatura'}
               </h2>
-              <p className="text-xs text-steel">
+              <p className="text-[11px] sm:text-xs text-steel truncate">
                 Configura los límites de faltas y el horario semanal
               </p>
             </div>
@@ -114,43 +115,45 @@ export const ClassModal: React.FC<ClassModalProps> = ({
           <button
             type="button"
             onClick={onClose}
-            className="p-1.5 text-steel hover:text-ink rounded-sm hover:bg-surface transition-colors"
+            className="p-1.5 text-steel hover:text-ink rounded-md hover:bg-surface transition-colors shrink-0 ml-2"
+            title="Cerrar modal"
           >
             <X className="w-4 h-4" />
           </button>
         </div>
 
-        {error && (
-          <div className="mt-3 p-3 rounded-md bg-card-tint-rose border border-semantic-error/30 text-semantic-error text-xs flex items-center gap-2">
-            <AlertCircle className="w-4 h-4 shrink-0" />
-            <span>{error}</span>
-          </div>
-        )}
-
-        {!initialData && courseId && (
-          <div className="mt-4 p-3.5 bg-surface border border-hairline rounded-md">
-            <div className="mb-2">
-              <p className="text-xs font-semibold text-ink">¿Prefieres importar tu horario?</p>
-              <p className="text-[11px] text-steel">Carga tus asignaturas y horas automáticamente desde tu cuenta</p>
+        {/* Scrollable Form Body */}
+        <form id="class-modal-form" onSubmit={handleSubmit} className="flex-1 overflow-y-auto px-4 sm:px-6 py-4 space-y-4 min-h-0">
+          {error && (
+            <div className="p-3 rounded-md bg-card-tint-rose border border-semantic-error/30 text-semantic-error text-xs flex items-center gap-2">
+              <AlertCircle className="w-4 h-4 shrink-0" />
+              <span>{error}</span>
             </div>
-            <CalendarImportBtn
-              courseId={courseId}
-              variant="full"
-              label="Sincronizar horario con Google Calendar"
-              onSuccess={onClose}
-            />
-            <div className="relative mt-3 mb-1 text-center">
-              <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t border-hairline" />
+          )}
+
+          {!initialData && courseId && (
+            <div className="p-3 sm:p-3.5 bg-surface border border-hairline rounded-md">
+              <div className="mb-2">
+                <p className="text-xs font-semibold text-ink">¿Prefieres importar tu horario?</p>
+                <p className="text-[11px] text-steel">Carga tus asignaturas y horas automáticamente desde tu cuenta</p>
               </div>
-              <span className="relative px-2 bg-surface text-[10px] font-semibold text-steel uppercase tracking-wider">
-                o ingresa los datos manualmente
-              </span>
+              <CalendarImportBtn
+                courseId={courseId}
+                variant="full"
+                label="Sincronizar horario con Google Calendar"
+                onSuccess={onClose}
+              />
+              <div className="relative mt-3 mb-1 text-center">
+                <div className="absolute inset-0 flex items-center">
+                  <div className="w-full border-t border-hairline" />
+                </div>
+                <span className="relative px-2 bg-surface text-[10px] font-semibold text-steel uppercase tracking-wider">
+                  o ingresa los datos manualmente
+                </span>
+              </div>
             </div>
-          </div>
-        )}
+          )}
 
-        <form onSubmit={handleSubmit} className="mt-4 space-y-4">
           {/* Class Name */}
           <div>
             <label className="block text-xs font-semibold text-ink mb-1">
@@ -167,9 +170,9 @@ export const ClassModal: React.FC<ClassModalProps> = ({
           </div>
 
           {/* Limits & Absences */}
-          <div className="grid grid-cols-2 gap-3">
-            <div>
-              <label className="block text-xs font-semibold text-ink mb-1">
+          <div className="grid grid-cols-2 gap-2.5 sm:gap-3">
+            <div className="min-w-0">
+              <label className="block text-xs font-semibold text-ink mb-1 truncate">
                 Límite de Faltas (Máx) *
               </label>
               <input
@@ -178,14 +181,14 @@ export const ClassModal: React.FC<ClassModalProps> = ({
                 max="50"
                 value={maxAbsences}
                 onChange={(e) => setMaxAbsences(Number(e.target.value))}
-                className="w-full h-11 px-3 rounded-md bg-canvas border border-hairline-strong text-ink focus:outline-none focus:border-2 focus:border-primary text-sm transition-colors"
+                className="w-full h-11 px-2.5 sm:px-3 rounded-md bg-canvas border border-hairline-strong text-ink text-center sm:text-left focus:outline-none focus:border-2 focus:border-primary text-sm transition-colors"
                 required
               />
-              <span className="text-[10px] text-steel mt-0.5 block">Faltas para reprobar</span>
+              <span className="text-[10px] text-steel mt-0.5 block truncate">Faltas para reprobar</span>
             </div>
 
-            <div>
-              <label className="block text-xs font-semibold text-ink mb-1">
+            <div className="min-w-0">
+              <label className="block text-xs font-semibold text-ink mb-1 truncate">
                 Faltas Actuales
               </label>
               <input
@@ -193,16 +196,16 @@ export const ClassModal: React.FC<ClassModalProps> = ({
                 min="0"
                 value={absences}
                 onChange={(e) => setAbsences(Number(e.target.value))}
-                className="w-full h-11 px-3 rounded-md bg-canvas border border-hairline-strong text-ink focus:outline-none focus:border-2 focus:border-primary text-sm transition-colors"
+                className="w-full h-11 px-2.5 sm:px-3 rounded-md bg-canvas border border-hairline-strong text-ink text-center sm:text-left focus:outline-none focus:border-2 focus:border-primary text-sm transition-colors"
               />
-              <span className="text-[10px] text-steel mt-0.5 block">Inicia en 0 por defecto</span>
+              <span className="text-[10px] text-steel mt-0.5 block truncate">Inicia en 0 por defecto</span>
             </div>
           </div>
 
           {/* Room & Professor */}
-          <div className="grid grid-cols-2 gap-3">
-            <div>
-              <label className="block text-xs font-semibold text-ink mb-1">
+          <div className="grid grid-cols-2 gap-2.5 sm:gap-3">
+            <div className="min-w-0">
+              <label className="block text-xs font-semibold text-ink mb-1 truncate">
                 Aula / Salón
               </label>
               <input
@@ -214,8 +217,8 @@ export const ClassModal: React.FC<ClassModalProps> = ({
               />
             </div>
 
-            <div>
-              <label className="block text-xs font-semibold text-ink mb-1">
+            <div className="min-w-0">
+              <label className="block text-xs font-semibold text-ink mb-1 truncate">
                 Profesor(a)
               </label>
               <input
@@ -233,13 +236,13 @@ export const ClassModal: React.FC<ClassModalProps> = ({
             <label className="block text-xs font-semibold text-ink mb-1.5">
               Color de Propiedad (Notion Palette)
             </label>
-            <div className="flex flex-wrap items-center gap-2">
+            <div className="flex flex-wrap items-center gap-2 sm:gap-2.5">
               {NOTION_COLOR_PRESETS.map((p) => (
                 <button
                   key={p.value}
                   type="button"
                   onClick={() => setColor(p.value)}
-                  className={`w-6 h-6 rounded-xs transition-all flex items-center justify-center ${
+                  className={`w-7 h-7 sm:w-6 sm:h-6 rounded-xs transition-all flex items-center justify-center ${
                     color === p.value ? 'ring-2 ring-primary ring-offset-2 scale-110' : 'opacity-80 hover:opacity-100'
                   }`}
                   style={{ backgroundColor: p.value }}
@@ -251,18 +254,18 @@ export const ClassModal: React.FC<ClassModalProps> = ({
 
           {/* Schedule list */}
           <div>
-            <div className="flex items-center justify-between mb-2">
-              <label className="text-xs font-semibold text-ink flex items-center gap-1.5">
-                <Calendar className="w-3.5 h-3.5 text-primary" />
-                Horarios Semanales ({schedules.length})
+            <div className="flex items-center justify-between gap-2 mb-2">
+              <label className="text-xs font-semibold text-ink flex items-center gap-1.5 min-w-0 truncate">
+                <Calendar className="w-3.5 h-3.5 text-primary shrink-0" />
+                <span className="truncate">Horarios Semanales ({schedules.length})</span>
               </label>
               <button
                 type="button"
                 onClick={handleAddSchedule}
-                className="text-xs font-medium text-primary hover:text-primary-pressed flex items-center gap-1 px-2.5 py-1 rounded-md border border-hairline bg-surface hover:bg-hairline-soft"
+                className="text-xs font-medium text-primary hover:text-primary-pressed flex items-center gap-1 px-2.5 py-1 rounded-md border border-hairline bg-surface hover:bg-hairline-soft shrink-0"
               >
                 <Plus className="w-3.5 h-3.5" />
-                Añadir día
+                <span>Añadir día</span>
               </button>
             </div>
 
@@ -271,51 +274,68 @@ export const ClassModal: React.FC<ClassModalProps> = ({
                 Sin horarios asignados. Pulsa en "Añadir día" para programar clases.
               </div>
             ) : (
-              <div className="space-y-2 max-h-44 overflow-y-auto pr-1">
+              <div className="space-y-2 max-h-48 overflow-y-auto pr-0.5">
                 {schedules.map((sch, idx) => (
                   <div
                     key={idx}
-                    className="p-2 rounded-md bg-surface border border-hairline flex items-center gap-2"
+                    className="p-2.5 rounded-md bg-surface border border-hairline flex flex-col sm:flex-row sm:items-center gap-2"
                   >
-                    <select
-                      value={sch.dayOfWeek}
-                      onChange={(e) =>
-                        handleScheduleChange(idx, 'dayOfWeek', Number(e.target.value))
-                      }
-                      className="bg-canvas border border-hairline-strong text-ink rounded-md px-2.5 py-1.5 text-xs font-medium focus:outline-none focus:border-primary"
-                    >
-                      {Object.entries(DAYS_MAP).map(([dayNum, info]) => (
-                        <option key={dayNum} value={dayNum}>
-                          {info.name}
-                        </option>
-                      ))}
-                    </select>
+                    {/* Day selector & mobile delete button */}
+                    <div className="flex items-center justify-between gap-2 w-full sm:w-auto">
+                      <select
+                        value={sch.dayOfWeek}
+                        onChange={(e) =>
+                          handleScheduleChange(idx, 'dayOfWeek', Number(e.target.value))
+                        }
+                        className="flex-1 sm:w-28 sm:flex-initial bg-canvas border border-hairline-strong text-ink rounded-md px-2.5 py-1.5 text-xs font-medium focus:outline-none focus:border-primary"
+                      >
+                        {Object.entries(DAYS_MAP).map(([dayNum, info]) => (
+                          <option key={dayNum} value={dayNum}>
+                            {info.name}
+                          </option>
+                        ))}
+                      </select>
 
-                    <div className="flex items-center gap-1 text-xs text-charcoal flex-1">
-                      <Clock className="w-3 h-3 text-steel shrink-0" />
-                      <input
-                        type="time"
-                        value={sch.startTime}
-                        onChange={(e) =>
-                          handleScheduleChange(idx, 'startTime', e.target.value)
-                        }
-                        className="bg-canvas border border-hairline-strong text-ink rounded-md px-2 py-1 text-xs focus:outline-none focus:border-primary"
-                      />
-                      <span className="text-steel">-</span>
-                      <input
-                        type="time"
-                        value={sch.endTime}
-                        onChange={(e) =>
-                          handleScheduleChange(idx, 'endTime', e.target.value)
-                        }
-                        className="bg-canvas border border-hairline-strong text-ink rounded-md px-2 py-1 text-xs focus:outline-none focus:border-primary"
-                      />
+                      {/* Mobile delete button (shown in top row next to day) */}
+                      <button
+                        type="button"
+                        onClick={() => handleRemoveSchedule(idx)}
+                        className="sm:hidden p-1.5 text-steel hover:text-semantic-error hover:bg-card-tint-rose rounded-md transition-colors shrink-0"
+                        title="Eliminar este horario"
+                      >
+                        <Trash2 className="w-3.5 h-3.5" />
+                      </button>
                     </div>
 
+                    {/* Time inputs */}
+                    <div className="flex items-center gap-1.5 text-xs text-charcoal flex-1 min-w-0">
+                      <Clock className="w-3.5 h-3.5 text-steel shrink-0" />
+                      <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-1.5 flex-1 min-w-0">
+                        <input
+                          type="time"
+                          value={sch.startTime}
+                          onChange={(e) =>
+                            handleScheduleChange(idx, 'startTime', e.target.value)
+                          }
+                          className="w-full bg-canvas border border-hairline-strong text-ink rounded-md px-2 py-1 text-xs text-center focus:outline-none focus:border-primary min-w-0"
+                        />
+                        <span className="text-steel font-medium text-xs text-center">-</span>
+                        <input
+                          type="time"
+                          value={sch.endTime}
+                          onChange={(e) =>
+                            handleScheduleChange(idx, 'endTime', e.target.value)
+                          }
+                          className="w-full bg-canvas border border-hairline-strong text-ink rounded-md px-2 py-1 text-xs text-center focus:outline-none focus:border-primary min-w-0"
+                        />
+                      </div>
+                    </div>
+
+                    {/* Desktop delete button */}
                     <button
                       type="button"
                       onClick={() => handleRemoveSchedule(idx)}
-                      className="p-1.5 text-steel hover:text-semantic-error hover:bg-card-tint-rose rounded-xs transition-colors"
+                      className="hidden sm:flex p-1.5 text-steel hover:text-semantic-error hover:bg-card-tint-rose rounded-md transition-colors shrink-0"
                       title="Eliminar este horario"
                     >
                       <Trash2 className="w-3.5 h-3.5" />
@@ -339,25 +359,27 @@ export const ClassModal: React.FC<ClassModalProps> = ({
               className="w-full p-2.5 rounded-md bg-canvas border border-hairline-strong text-ink placeholder-muted focus:outline-none focus:border-2 focus:border-primary text-xs resize-none"
             />
           </div>
-
-          {/* Footer buttons */}
-          <div className="flex items-center justify-end gap-2.5 pt-3 border-t border-hairline">
-            <button
-              type="button"
-              onClick={onClose}
-              className="px-4 py-2 text-xs font-medium text-charcoal hover:bg-surface border border-hairline-strong rounded-md transition-colors"
-            >
-              Cancelar
-            </button>
-            <button
-              type="submit"
-              className="px-5 py-2 text-xs font-medium text-on-primary bg-primary hover:bg-primary-pressed rounded-md shadow-sm transition-all active:scale-[0.98]"
-            >
-              {initialData ? 'Guardar Cambios' : 'Crear Asignatura'}
-            </button>
-          </div>
         </form>
+
+        {/* Footer (Fijo) */}
+        <div className="shrink-0 px-4 sm:px-6 py-3.5 border-t border-hairline bg-canvas flex items-center justify-end gap-2.5">
+          <button
+            type="button"
+            onClick={onClose}
+            className="flex-1 sm:flex-initial px-4 py-2 text-xs font-medium text-charcoal hover:bg-surface border border-hairline-strong rounded-md transition-colors text-center"
+          >
+            Cancelar
+          </button>
+          <button
+            type="submit"
+            form="class-modal-form"
+            className="flex-1 sm:flex-initial px-5 py-2 text-xs font-medium text-on-primary bg-primary hover:bg-primary-pressed rounded-md shadow-sm transition-all active:scale-[0.98] text-center"
+          >
+            {initialData ? 'Guardar Cambios' : 'Crear Asignatura'}
+          </button>
+        </div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 };
