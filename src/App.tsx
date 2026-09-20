@@ -11,6 +11,7 @@ import { CourseModal } from './components/CourseModal';
 import { ClassDetailModal } from './components/ClassDetailModal';
 import { CatchUpModal } from './components/CatchUpModal';
 import { BackupModal } from './components/BackupModal';
+import { InstallGuideModal } from './components/InstallGuideModal';
 
 export function App() {
   const {
@@ -49,6 +50,7 @@ export function App() {
 
   const [isBackupModalOpen, setIsBackupModalOpen] = useState(false);
   const [isCatchUpModalOpen, setIsCatchUpModalOpen] = useState(false);
+  const [isInstallGuideOpen, setIsInstallGuideOpen] = useState(false);
   const [hasAutoOpenedCatchUp, setHasAutoOpenedCatchUp] = useState(false);
 
   // Active course
@@ -157,6 +159,7 @@ export function App() {
         onTabChange={setActiveTab}
         onOpenCatchUp={() => setIsCatchUpModalOpen(true)}
         onOpenBackup={() => setIsBackupModalOpen(true)}
+        onOpenInstallGuide={() => setIsInstallGuideOpen(true)}
         onNewClass={handleOpenNewClass}
       />
 
@@ -289,6 +292,11 @@ export function App() {
         onImport={importData}
         onResetDemo={resetToDemo}
         onClearAll={clearAllData}
+      />
+
+      <InstallGuideModal
+        isOpen={isInstallGuideOpen}
+        onClose={() => setIsInstallGuideOpen(false)}
       />
     </div>
   );

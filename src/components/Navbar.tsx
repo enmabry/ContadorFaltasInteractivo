@@ -8,7 +8,8 @@ import {
   HardDrive,
   Bell,
   Download,
-  Plus
+  Plus,
+  Smartphone
 } from 'lucide-react';
 
 interface BeforeInstallPromptEvent extends Event {
@@ -28,6 +29,7 @@ interface NavbarProps {
   onTabChange: (tab: 'dashboard' | 'today' | 'weekly') => void;
   onOpenCatchUp: () => void;
   onOpenBackup: () => void;
+  onOpenInstallGuide: () => void;
   onNewClass: () => void;
 }
 
@@ -43,6 +45,7 @@ export const Navbar: React.FC<NavbarProps> = ({
   onTabChange,
   onOpenCatchUp,
   onOpenBackup,
+  onOpenInstallGuide,
   onNewClass
 }) => {
   const [deferredPrompt, setDeferredPrompt] = useState<BeforeInstallPromptEvent | null>(null);
@@ -56,12 +59,15 @@ export const Navbar: React.FC<NavbarProps> = ({
     return () => window.removeEventListener('beforeinstallprompt', handler);
   }, []);
 
-  const handleInstallPWA = async () => {
-    if (!deferredPrompt) return;
-    deferredPrompt.prompt();
-    const { outcome } = await deferredPrompt.userChoice;
-    if (outcome === 'accepted') {
-      setDeferredPrompt(null);
+  const handleInstallClick = async () => {
+    if (deferredPrompt) {
+      deferredPrompt.prompt();
+      const { outcome } = await deferredPrompt.userChoice;
+      if (outcome === 'accepted') {
+        setDeferredPrompt(null);
+      }
+    } else {
+      onOpenInstallGuide();
     }
   };
 
@@ -159,18 +165,16 @@ export const Navbar: React.FC<NavbarProps> = ({
               </button>
             )}
 
-            {/* PWA Install Button */}
-            {deferredPrompt && (
-              <button
-                type="button"
-                onClick={handleInstallPWA}
-                className="px-3 py-1.5 rounded-md border border-hairline-strong text-charcoal hover:bg-surface text-xs font-medium flex items-center gap-1.5 transition-colors"
-                title="Instalar como App en tu móvil o PC"
-              >
-                <Download className="w-3.5 h-3.5" />
-                <span className="hidden sm:inline">Instalar App</span>
-              </button>
-            )}
+            {/* PWA Install Button (Always helpful for friends on iOS & Android) */}
+            <button
+              type="button"
+              onClick={handleInstallClick}
+              className="px-2.5 sm:px-3 py-1.5 rounded-md border border-hairline-strong text-charcoal hover:bg-surface text-xs font-medium flex items-center gap-1.5 transition-colors"
+              title="Instalar como App en tu móvil (iOS / Android)"
+            >
+              {deferredPrompt ? <Download className="w-3.5 h-3.5 text-primary" /> : <Smartphone className="w-3.5 h-3.5 text-steel" />}
+              <span className="hidden sm:inline">Instalar App</span>
+            </button>
 
             {/* Backup / Data button */}
             <button
