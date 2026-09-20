@@ -27,6 +27,7 @@ interface DashboardViewProps {
   onNewClass: () => void;
   onLoadDemo: () => void;
   onShareCourse?: () => void;
+  onShareClass?: (classItem: ClassItem) => void;
 }
 
 type FilterType = 'all' | 'danger' | 'safe' | 'failed';
@@ -42,7 +43,8 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
   onViewClassDetails,
   onNewClass,
   onLoadDemo,
-  onShareCourse
+  onShareCourse,
+  onShareClass
 }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [activeFilter, setActiveFilter] = useState<FilterType>('all');
@@ -359,6 +361,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
               onEdit={onEditClass}
               onDelete={onDeleteClass}
               onViewDetails={onViewClassDetails}
+              onShareClass={onShareClass}
             />
           ))}
         </div>

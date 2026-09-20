@@ -16,7 +16,8 @@ import {
   CheckCircle2,
   XCircle,
   MinusCircle,
-  FileText
+  FileText,
+  QrCode
 } from 'lucide-react';
 
 interface ClassDetailModalProps {
@@ -37,6 +38,7 @@ interface ClassDetailModalProps {
   onDeleteRecord: (recordId: string) => void;
   onEdit: (classItem: ClassItem) => void;
   onDeleteClass: (classId: string) => void;
+  onShareClass?: (classItem: ClassItem) => void;
 }
 
 export const ClassDetailModal: React.FC<ClassDetailModalProps> = ({
@@ -50,7 +52,8 @@ export const ClassDetailModal: React.FC<ClassDetailModalProps> = ({
   onRecordAttendance,
   onDeleteRecord,
   onEdit,
-  onDeleteClass
+  onDeleteClass,
+  onShareClass
 }) => {
   const [showAddLog, setShowAddLog] = useState(false);
   const [logStatus, setLogStatus] = useState<AttendanceStatus>('absent');
@@ -129,6 +132,16 @@ export const ClassDetailModal: React.FC<ClassDetailModalProps> = ({
           </div>
 
           <div className="flex items-center gap-1">
+            {onShareClass && (
+              <button
+                type="button"
+                onClick={() => onShareClass(classItem)}
+                className="p-1.5 text-steel hover:text-ink rounded-sm hover:bg-surface transition-colors"
+                title="Compartir asignatura (QR / Enlace)"
+              >
+                <QrCode className="w-4 h-4" />
+              </button>
+            )}
             <button
               type="button"
               onClick={() => onEdit(classItem)}

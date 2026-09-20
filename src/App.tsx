@@ -3,7 +3,7 @@ import confetti from 'canvas-confetti';
 import { useAttendanceStore } from './store/useAttendanceStore';
 import type { ClassItem, Course } from './types';
 import { detectPendingCatchUp } from './utils/schedule';
-import { decodeCourseFromURL } from './utils/share';
+import { decodeCourseFromURL, decodeClassFromURL } from './utils/share';
 import { Navbar } from './components/Navbar';
 import { DashboardView } from './views/DashboardView';
 import { TodayScheduleView } from './views/TodayScheduleView';
@@ -15,6 +15,7 @@ import { CatchUpModal } from './components/CatchUpModal';
 import { BackupModal } from './components/BackupModal';
 import { InstallGuideModal } from './components/InstallGuideModal';
 import { ShareCourseModal } from './components/ShareCourseModal';
+import { ShareClassModal } from './components/ShareClassModal';
 
 export function App() {
   const {
@@ -56,6 +57,7 @@ export function App() {
   const [isCatchUpModalOpen, setIsCatchUpModalOpen] = useState(false);
   const [isInstallGuideOpen, setIsInstallGuideOpen] = useState(false);
   const [isShareModalOpen, setIsShareModalOpen] = useState(false);
+  const [sharingClass, setSharingClass] = useState<ClassItem | null>(null);
   const [hasAutoOpenedCatchUp, setHasAutoOpenedCatchUp] = useState(false);
 
   // Active course
@@ -91,10 +93,11 @@ export function App() {
     }
   }, [pendingPrompts.length, hasAutoOpenedCatchUp]);
 
-  // Intercept shared course from URL (?share=...)
+  // Intercept shared course or single class from URL (?share=... or ?shareClass=...)
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const shareHash = params.get('share');
+    const shareClassHash = params.get('shareClass');
 
     if (shareHash) {
       const importedCourse = decodeCourseFromURL(shareHash);
@@ -120,8 +123,36 @@ export function App() {
 
       // Limpiamos el token de la URL para que no quede saturada
       window.history.replaceState({}, document.title, window.location.pathname);
+    } else if (shareClassHash) {
+      const importedClass = decodeClassFromURL(shareClassHash);
+
+      if (importedClass) {
+        let targetCourseId = activeCourseId;
+        if (!targetCourseId && courses.length > 0) {
+          targetCourseId = courses[0].id;
+        } else if (!targetCourseId) {
+          targetCourseId = addCourse('Mi Semestre');
+        }
+
+        const targetCourse = courses.find((c) => c.id === targetCourseId) || { name: 'tu periodo actual' };
+        const confirmClass = window.confirm(
+          `¿Quieres importar la asignatura "${importedClass.name}" en el periodo "${targetCourse.name}"? (Las inasistencias iniciarán en 0)`
+        );
+
+        if (confirmClass && targetCourseId) {
+          addClass(targetCourseId, importedClass);
+          confetti({
+            particleCount: 70,
+            spread: 80,
+            origin: { y: 0.6 }
+          });
+          alert(`¡Asignatura "${importedClass.name}" agregada con éxito! 🎉`);
+        }
+      }
+
+      window.history.replaceState({}, document.title, window.location.pathname);
     }
-  }, [importCourse]);
+  }, [importCourse, addCourse, addClass, activeCourseId, courses]);
 
   // Handlers for Class Modal
   const handleOpenNewClass = () => {
@@ -241,6 +272,7 @@ export function App() {
                 onNewClass={handleOpenNewClass}
                 onLoadDemo={resetToDemo}
                 onShareCourse={() => setIsShareModalOpen(true)}
+                onShareClass={(cls) => setSharingClass(cls)}
               />
             )}
 
@@ -310,6 +342,7 @@ export function App() {
           }
           setIsClassDetailOpen(false);
         }}
+        onShareClass={(cls) => setSharingClass(cls)}
       />
 
       <CatchUpModal
@@ -343,6 +376,12 @@ export function App() {
         course={activeCourse}
         isOpen={isShareModalOpen}
         onClose={() => setIsShareModalOpen(false)}
+      />
+
+      <ShareClassModal
+        classItem={sharingClass}
+        isOpen={Boolean(sharingClass)}
+        onClose={() => setSharingClass(null)}
       />
     </div>
   );

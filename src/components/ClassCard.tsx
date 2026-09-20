@@ -3,7 +3,7 @@ import type { ClassItem } from '../types';
 import { calculateDangerInfo } from '../utils/status';
 import { DAYS_MAP, isScheduleNow } from '../utils/schedule';
 import { DangerGauge } from './DangerGauge';
-import { Clock, MapPin, User, Plus, Minus, MoreVertical, Edit3, Trash2, Info, Radio } from 'lucide-react';
+import { Clock, MapPin, User, Plus, Minus, MoreVertical, Edit3, Trash2, Info, Radio, QrCode } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
 interface ClassCardProps {
@@ -14,6 +14,7 @@ interface ClassCardProps {
   onEdit: (classItem: ClassItem) => void;
   onDelete: (classId: string) => void;
   onViewDetails: (classItem: ClassItem) => void;
+  onShareClass?: (classItem: ClassItem) => void;
 }
 
 export const ClassCard: React.FC<ClassCardProps> = ({
@@ -23,7 +24,8 @@ export const ClassCard: React.FC<ClassCardProps> = ({
   onDecrement,
   onEdit,
   onDelete,
-  onViewDetails
+  onViewDetails,
+  onShareClass
 }) => {
   const [showMenu, setShowMenu] = useState(false);
   const [isPressing, setIsPressing] = useState(false);
@@ -158,6 +160,20 @@ export const ClassCard: React.FC<ClassCardProps> = ({
                     <Edit3 className="w-3.5 h-3.5 text-link-blue" />
                     Editar Clase
                   </button>
+                  {onShareClass && (
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setShowMenu(false);
+                        onShareClass(classItem);
+                      }}
+                      className="w-full px-3 py-1.5 text-left text-charcoal hover:bg-surface flex items-center gap-2"
+                    >
+                      <QrCode className="w-3.5 h-3.5 text-steel" />
+                      Compartir Clase
+                    </button>
+                  )}
                 </div>
                 <div className="py-0.5">
                   <button
