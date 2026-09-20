@@ -233,7 +233,7 @@ export function App() {
       />
 
       {/* Main Content Area */}
-      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 pb-12 sm:pb-16">
         {!activeCourse ? (
           <div className="p-10 text-center rounded-lg bg-canvas border border-hairline space-y-3.5 max-w-md mx-auto my-12 shadow-xs">
             <h2 className="text-lg font-bold text-ink">No tienes periodos creados</h2>
@@ -296,13 +296,6 @@ export function App() {
           </>
         )}
       </main>
-
-      {/* Footer - Notion footer-region */}
-      <footer className="py-6 border-t border-hairline bg-canvas text-center text-xs text-steel">
-        <p>
-          WEBER • Racionaliza tu tiempo • Notion Design System • PWA Offline-First
-        </p>
-      </footer>
 
       {/* Modals */}
       <ClassModal

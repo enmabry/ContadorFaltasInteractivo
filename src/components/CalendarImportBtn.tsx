@@ -210,14 +210,14 @@ export const CalendarImportBtn: React.FC<CalendarImportBtnProps> = ({
 
   const buttonClasses =
     variant === 'hero'
-      ? 'flex items-center gap-2 px-3.5 py-2 text-xs font-medium text-charcoal bg-canvas hover:bg-surface border border-hairline-strong rounded-md transition-all shadow-xs'
+      ? 'w-full sm:w-auto flex items-center justify-center gap-2 px-3.5 py-2 text-xs font-medium text-charcoal bg-canvas hover:bg-surface border border-hairline-strong rounded-md transition-all shadow-xs'
       : variant === 'full'
       ? 'w-full flex items-center justify-center gap-2 py-2.5 px-4 text-xs font-medium text-charcoal bg-surface hover:bg-hairline border border-hairline-strong rounded-md transition-colors'
-      : 'flex items-center gap-2 px-3 py-1.5 text-xs font-medium text-charcoal bg-canvas hover:bg-surface border border-hairline-strong rounded-md transition-colors shadow-xs';
+      : 'w-full sm:w-auto flex items-center justify-center gap-2 px-3.5 py-2 sm:py-1.5 text-xs font-medium text-charcoal bg-canvas hover:bg-surface border border-hairline-strong rounded-md transition-colors shadow-xs';
 
   return (
     <>
-      <div className={variant === 'full' ? 'w-full' : 'inline-block'}>
+      <div className={variant === 'full' ? 'w-full' : 'w-full sm:w-auto'}>
         <button
           type="button"
           onClick={() => login()}

@@ -95,7 +95,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
         <div className="absolute top-6 right-48 w-2.5 h-2.5 rounded-full bg-brand-purple-300 opacity-60" />
         <div className="absolute bottom-10 right-36 w-2 h-2 rounded-full bg-brand-orange opacity-70" />
 
-        <div className="relative z-10 flex flex-col sm:flex-row sm:items-center justify-between gap-5">
+        <div className="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-5">
           <div className="space-y-1.5 max-w-xl">
             <div className="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-full bg-brand-navy-mid text-on-dark-muted text-[11px] font-medium border border-white/10">
               <span className="w-1.5 h-1.5 rounded-full bg-brand-purple-300" />
@@ -109,12 +109,12 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
             </p>
           </div>
 
-          <div className="flex flex-wrap items-center gap-2.5 shrink-0">
+          <div className="flex flex-col sm:flex-row sm:items-center gap-2.5 sm:gap-3 w-full lg:w-auto shrink-0 mt-2 lg:mt-0">
             {onShareCourse && (
               <button
                 type="button"
                 onClick={onShareCourse}
-                className="flex items-center gap-2 px-3.5 py-1.5 text-xs font-medium text-charcoal bg-canvas hover:bg-surface border border-hairline-strong rounded-md transition-colors shadow-xs"
+                className="w-full sm:w-auto flex items-center justify-center gap-2 px-3.5 py-2 sm:py-1.5 text-xs font-medium text-charcoal bg-canvas hover:bg-surface border border-hairline-strong rounded-md transition-colors shadow-xs"
                 title="Compartir este periodo vía QR o enlace"
               >
                 <QrCode className="w-3.5 h-3.5 text-steel" />
@@ -128,7 +128,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
             <button
               type="button"
               onClick={onNewClass}
-              className="px-4 py-2 rounded-md bg-primary hover:bg-primary-pressed text-on-primary text-xs font-medium flex items-center justify-center gap-2 shadow-sm transition-all active:scale-[0.98]"
+              className="w-full sm:w-auto px-4 py-2 sm:py-1.5 rounded-md bg-primary hover:bg-primary-pressed text-on-primary text-xs font-medium flex items-center justify-center gap-2 shadow-sm transition-all active:scale-[0.98]"
             >
               <Plus className="w-4 h-4 stroke-[2.5]" />
               <span>Añadir Asignatura</span>
@@ -138,7 +138,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
       </div>
 
       {/* KPI Cards Grid - Notion Pastel Database Properties Palette */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-3">
         {/* Total Classes */}
         <div className="p-4 rounded-lg bg-canvas border border-hairline shadow-xs flex items-center gap-3">
           <div className="p-2 rounded-xs bg-surface text-charcoal shrink-0">
@@ -301,11 +301,11 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
               <p className="text-xs text-steel max-w-md mx-auto">
                 Comienza creando tus materias con su límite de faltas permitido y horario semanal, o carga un semestre de ejemplo.
               </p>
-              <div className="flex flex-wrap items-center justify-center gap-2.5 pt-2">
+              <div className="flex flex-col sm:flex-row flex-wrap items-center justify-center gap-2.5 pt-2 w-full max-w-lg mx-auto">
                 <button
                   type="button"
                   onClick={onNewClass}
-                  className="px-4 py-2 rounded-md bg-primary hover:bg-primary-pressed text-on-primary text-xs font-medium flex items-center gap-1.5 shadow-sm"
+                  className="w-full sm:w-auto px-4 py-2 rounded-md bg-primary hover:bg-primary-pressed text-on-primary text-xs font-medium flex items-center justify-center gap-1.5 shadow-sm"
                 >
                   <Plus className="w-3.5 h-3.5" />
                   <span>Crear Asignatura</span>
@@ -315,7 +315,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
                   <button
                     type="button"
                     onClick={onShareCourse}
-                    className="px-3.5 py-2 rounded-md bg-canvas hover:bg-surface text-charcoal border border-hairline-strong text-xs font-medium flex items-center gap-1.5"
+                    className="w-full sm:w-auto px-3.5 py-2 rounded-md bg-canvas hover:bg-surface text-charcoal border border-hairline-strong text-xs font-medium flex items-center justify-center gap-1.5"
                   >
                     <QrCode className="w-3.5 h-3.5 text-steel" />
                     <span>Compartir QR</span>
@@ -324,7 +324,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
                 <button
                   type="button"
                   onClick={onLoadDemo}
-                  className="px-3.5 py-2 rounded-md bg-canvas hover:bg-surface text-charcoal border border-hairline-strong text-xs font-medium flex items-center gap-1.5"
+                  className="w-full sm:w-auto px-3.5 py-2 rounded-md bg-canvas hover:bg-surface text-charcoal border border-hairline-strong text-xs font-medium flex items-center justify-center gap-1.5"
                 >
                   <Sparkles className="w-3.5 h-3.5 text-brand-orange" />
                   <span>Cargar Demo</span>
