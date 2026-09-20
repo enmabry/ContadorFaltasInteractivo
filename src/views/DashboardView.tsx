@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import type { ClassItem } from '../types';
 import { calculateDangerInfo } from '../utils/status';
 import { ClassCard } from '../components/ClassCard';
+import { CalendarImportBtn } from '../components/CalendarImportBtn';
 import {
   Search,
   Plus,
@@ -102,15 +103,19 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
             </p>
           </div>
 
-          {/* Signature Purple Rectangular Button */}
-          <button
-            type="button"
-            onClick={onNewClass}
-            className="px-4 py-2.5 rounded-md bg-primary hover:bg-primary-pressed text-on-primary text-xs font-medium flex items-center justify-center gap-2 shadow-sm transition-all active:scale-[0.98] shrink-0"
-          >
-            <Plus className="w-4 h-4 stroke-[2.5]" />
-            <span>Añadir Asignatura</span>
-          </button>
+          <div className="flex flex-wrap items-center gap-2.5 shrink-0">
+            <CalendarImportBtn courseId={courseId} />
+
+            {/* Signature Purple Rectangular Button */}
+            <button
+              type="button"
+              onClick={onNewClass}
+              className="px-4 py-2 rounded-md bg-primary hover:bg-primary-pressed text-on-primary text-xs font-medium flex items-center justify-center gap-2 shadow-sm transition-all active:scale-[0.98]"
+            >
+              <Plus className="w-4 h-4 stroke-[2.5]" />
+              <span>Añadir Asignatura</span>
+            </button>
+          </div>
         </div>
       </div>
 
@@ -287,6 +292,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
                   <Plus className="w-3.5 h-3.5" />
                   <span>Crear Asignatura</span>
                 </button>
+                <CalendarImportBtn courseId={courseId} />
                 <button
                   type="button"
                   onClick={onLoadDemo}
