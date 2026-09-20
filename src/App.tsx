@@ -356,7 +356,6 @@ export function App() {
         courses={courses}
         records={attendanceRecords}
         onImport={importData}
-        onResetDemo={resetToDemo}
         onClearAll={clearAllData}
       />
 

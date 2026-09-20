@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react';
 import type { Course, AttendanceRecord } from '../types';
-import { X, Download, Upload, RotateCcw, Trash2, Check, AlertCircle, HardDrive } from 'lucide-react';
+import { X, Download, Upload, Trash2, Check, AlertCircle, HardDrive } from 'lucide-react';
 
 interface BackupModalProps {
   isOpen: boolean;
@@ -8,7 +8,6 @@ interface BackupModalProps {
   courses: Course[];
   records: AttendanceRecord[];
   onImport: (courses: Course[], records?: AttendanceRecord[]) => boolean;
-  onResetDemo: () => void;
   onClearAll: () => void;
 }
 
@@ -18,7 +17,6 @@ export const BackupModal: React.FC<BackupModalProps> = ({
   courses,
   records,
   onImport,
-  onResetDemo,
   onClearAll
 }) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -174,26 +172,6 @@ export const BackupModal: React.FC<BackupModalProps> = ({
               </div>
             </div>
           </button>
-
-          {/* Demo button
-          <button
-            type="button"
-            onClick={() => {
-              onResetDemo();
-              setMessage({ type: 'success', text: 'Datos de prueba cargados exitosamente.' });
-            }}
-            className="w-full p-3 rounded-md bg-surface border border-hairline hover:bg-hairline-soft text-left flex items-center justify-between group transition-colors"
-          >
-            <div className="flex items-center gap-3">
-              <div className="p-1.5 rounded-xs bg-card-tint-mint text-brand-green">
-                <RotateCcw className="w-4 h-4" />
-              </div>
-              <div>
-                <h4 className="text-xs font-semibold text-ink">Cargar Datos de Prueba (Demo)</h4>
-                <p className="text-[11px] text-steel">Prueba la aplicación con materias y horarios de ejemplo</p>
-              </div>
-            </div>
-          </button> */}
 
           {/* Clear All */}
           <div className="pt-2">
