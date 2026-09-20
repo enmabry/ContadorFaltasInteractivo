@@ -27,16 +27,16 @@ export const CourseSelector: React.FC<CourseSelectorProps> = ({
       <button
         type="button"
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-2.5 px-3.5 py-2 rounded-2xl bg-slate-900 border border-slate-800 hover:border-slate-700 text-slate-200 transition-all text-sm font-semibold shadow-sm hover:shadow"
+        className="flex items-center gap-2 px-3 py-1.5 rounded-md bg-canvas border border-hairline-strong hover:bg-surface text-charcoal transition-all text-xs font-medium shadow-xs"
       >
         <div
           className="w-2.5 h-2.5 rounded-full shrink-0"
-          style={{ backgroundColor: activeCourse?.color || '#6366f1' }}
+          style={{ backgroundColor: activeCourse?.color || '#5645d4' }}
         />
-        <span className="truncate max-w-[150px] sm:max-w-[200px]">
+        <span className="truncate max-w-[140px] sm:max-w-[180px] font-semibold text-ink">
           {activeCourse ? activeCourse.name : 'Sin Periodo'}
         </span>
-        <ChevronDown className="w-4 h-4 text-slate-400 shrink-0" />
+        <ChevronDown className="w-3.5 h-3.5 text-steel shrink-0" />
       </button>
 
       {isOpen && (
@@ -45,11 +45,11 @@ export const CourseSelector: React.FC<CourseSelectorProps> = ({
             className="fixed inset-0 z-30"
             onClick={() => setIsOpen(false)}
           />
-          <div className="absolute left-0 mt-2 w-72 bg-slate-900 border border-slate-800 rounded-2xl shadow-2xl z-40 py-2 text-xs divide-y divide-slate-800 animate-in fade-in zoom-in-95 duration-150">
+          <div className="absolute left-0 mt-1 w-72 bg-canvas border border-hairline rounded-md shadow-[0px_16px_48px_-8px_rgba(15,15,15,0.16)] z-40 py-2 text-xs divide-y divide-hairline-soft animate-in fade-in zoom-in-95 duration-100">
             {/* List of courses */}
             <div className="py-1 max-h-60 overflow-y-auto">
-              <div className="px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider text-slate-500">
-                Tus Periodos / Semestres
+              <div className="px-3 py-1 text-[10px] font-semibold uppercase tracking-wider text-stone">
+                Periodos / Semestres
               </div>
               {courses.map((course) => {
                 const isCurrent = course.id === activeCourseId;
@@ -62,23 +62,23 @@ export const CourseSelector: React.FC<CourseSelectorProps> = ({
                     }}
                     className={`px-3 py-2 flex items-center justify-between cursor-pointer transition-colors ${
                       isCurrent
-                        ? 'bg-indigo-600/10 text-indigo-300 font-bold'
-                        : 'hover:bg-slate-800 text-slate-300'
+                        ? 'bg-card-tint-lavender/50 text-brand-purple-800 font-semibold'
+                        : 'hover:bg-surface text-charcoal'
                     }`}
                   >
                     <div className="flex items-center gap-2.5 truncate min-w-0">
                       <span
                         className="w-2.5 h-2.5 rounded-full shrink-0"
-                        style={{ backgroundColor: course.color || '#6366f1' }}
+                        style={{ backgroundColor: course.color || '#5645d4' }}
                       />
                       <span className="truncate">{course.name}</span>
-                      <span className="text-[11px] text-slate-400 font-normal">
-                        ({course.classes?.length || 0} {course.classes?.length === 1 ? 'materia' : 'materias'})
+                      <span className="text-[11px] text-steel font-normal">
+                        ({course.classes?.length || 0})
                       </span>
                     </div>
 
                     <div className="flex items-center gap-1 shrink-0">
-                      {isCurrent && <Check className="w-4 h-4 text-indigo-400" />}
+                      {isCurrent && <Check className="w-3.5 h-3.5 text-primary" />}
                       <button
                         type="button"
                         onClick={(e) => {
@@ -86,7 +86,7 @@ export const CourseSelector: React.FC<CourseSelectorProps> = ({
                           setIsOpen(false);
                           onEditCourse(course);
                         }}
-                        className="p-1 text-slate-400 hover:text-white rounded hover:bg-slate-700/60"
+                        className="p-1 text-steel hover:text-ink rounded-xs hover:bg-surface"
                         title="Editar periodo"
                       >
                         <Edit2 className="w-3 h-3" />
@@ -101,7 +101,7 @@ export const CourseSelector: React.FC<CourseSelectorProps> = ({
                               setIsOpen(false);
                             }
                           }}
-                          className="p-1 text-slate-400 hover:text-rose-400 rounded hover:bg-rose-950/30"
+                          className="p-1 text-steel hover:text-semantic-error rounded-xs hover:bg-card-tint-rose"
                           title="Eliminar periodo"
                         >
                           <Trash2 className="w-3 h-3" />
@@ -114,16 +114,16 @@ export const CourseSelector: React.FC<CourseSelectorProps> = ({
             </div>
 
             {/* Add course button */}
-            <div className="pt-1.5 px-2">
+            <div className="pt-2 px-2">
               <button
                 type="button"
                 onClick={() => {
                   setIsOpen(false);
                   onNewCourse();
                 }}
-                className="w-full py-2 px-3 rounded-xl bg-indigo-600/10 hover:bg-indigo-600/20 text-indigo-400 font-bold flex items-center justify-center gap-2 transition-colors"
+                className="w-full py-1.5 px-3 rounded-md bg-surface hover:bg-hairline text-charcoal border border-hairline font-medium flex items-center justify-center gap-1.5 transition-colors"
               >
-                <Plus className="w-4 h-4" />
+                <Plus className="w-3.5 h-3.5 text-primary" />
                 <span>Crear Nuevo Periodo</span>
               </button>
             </div>

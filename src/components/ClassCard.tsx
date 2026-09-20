@@ -34,13 +34,12 @@ export const ClassCard: React.FC<ClassCardProps> = ({
   const handleAddAbsence = (e: React.MouseEvent) => {
     e.stopPropagation();
     setIsPressing(true);
-    setTimeout(() => setIsPressing(false), 200);
+    setTimeout(() => setIsPressing(false), 150);
 
     onIncrement(courseId, classItem.id);
 
-    // If reaching failed limit, trigger warning vibration if supported
     if (navigator.vibrate) {
-      navigator.vibrate([100, 50, 100]);
+      navigator.vibrate([80, 40, 80]);
     }
   };
 
@@ -55,8 +54,8 @@ export const ClassCard: React.FC<ClassCardProps> = ({
     e.stopPropagation();
     if (classItem.absences === 0) {
       confetti({
-        particleCount: 40,
-        spread: 60,
+        particleCount: 35,
+        spread: 55,
         origin: { y: 0.8 }
       });
     }
@@ -65,18 +64,18 @@ export const ClassCard: React.FC<ClassCardProps> = ({
   return (
     <div
       onClick={() => onViewDetails(classItem)}
-      className={`relative group bg-slate-900/90 border rounded-2xl p-5 shadow-lg transition-all duration-200 hover:shadow-indigo-500/10 hover:border-slate-700 cursor-pointer ${
+      className={`relative group bg-canvas border rounded-lg p-5 shadow-[0px_1px_3px_rgba(15,15,15,0.06)] transition-all duration-150 hover:shadow-[0px_4px_12px_rgba(15,15,15,0.08)] cursor-pointer ${
         dangerInfo.level === 'failed'
-          ? 'border-rose-900/60 bg-gradient-to-b from-slate-900 via-slate-900 to-rose-950/20'
+          ? 'border-semantic-error/40 bg-card-tint-rose/20'
           : dangerInfo.level === 'danger'
-          ? 'border-amber-900/60 bg-gradient-to-b from-slate-900 via-slate-900 to-amber-950/20'
-          : 'border-slate-800'
+          ? 'border-brand-orange/40 bg-card-tint-peach/20'
+          : 'border-hairline hover:border-hairline-strong'
       }`}
     >
-      {/* Ongoing class pulse badge */}
+      {/* Ongoing class badge */}
       {isOngoing && (
-        <div className="absolute -top-2.5 right-4 z-10 flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-500 text-slate-950 text-[11px] font-bold shadow-md shadow-emerald-500/30 animate-pulse">
-          <Radio className="w-3 h-3 animate-ping" />
+        <div className="absolute -top-2.5 right-4 z-10 flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-card-tint-mint text-brand-green text-[11px] font-semibold border border-brand-green/30 shadow-sm animate-pulse">
+          <Radio className="w-3 h-3 text-brand-green" />
           <span>EN CLASE AHORA</span>
         </div>
       )}
@@ -86,25 +85,25 @@ export const ClassCard: React.FC<ClassCardProps> = ({
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2 mb-1">
             <span
-              className="w-3 h-3 rounded-full shrink-0 shadow-sm"
-              style={{ backgroundColor: classItem.color || '#6366f1' }}
+              className="w-2.5 h-2.5 rounded-full shrink-0"
+              style={{ backgroundColor: classItem.color || '#5645d4' }}
             />
-            <h3 className="text-lg font-bold text-white tracking-tight truncate group-hover:text-indigo-300 transition-colors">
+            <h3 className="text-base font-semibold text-ink tracking-tight truncate group-hover:text-primary transition-colors">
               {classItem.name}
             </h3>
           </div>
 
-          <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-slate-400">
+          <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-steel">
             {classItem.room && (
               <span className="flex items-center gap-1">
-                <MapPin className="w-3 h-3 text-slate-400" />
-                <span className="truncate max-w-[140px]">{classItem.room}</span>
+                <MapPin className="w-3 h-3 text-stone" />
+                <span className="truncate max-w-[130px]">{classItem.room}</span>
               </span>
             )}
             {classItem.professor && (
               <span className="flex items-center gap-1">
-                <User className="w-3 h-3 text-slate-400" />
-                <span className="truncate max-w-[140px]">{classItem.professor}</span>
+                <User className="w-3 h-3 text-stone" />
+                <span className="truncate max-w-[130px]">{classItem.professor}</span>
               </span>
             )}
           </div>
@@ -118,7 +117,7 @@ export const ClassCard: React.FC<ClassCardProps> = ({
               e.stopPropagation();
               setShowMenu(!showMenu);
             }}
-            className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors"
+            className="p-1 rounded-sm text-steel hover:text-ink hover:bg-surface transition-colors"
             title="Opciones"
           >
             <MoreVertical className="w-4 h-4" />
@@ -133,67 +132,70 @@ export const ClassCard: React.FC<ClassCardProps> = ({
                   setShowMenu(false);
                 }}
               />
-              <div className="absolute right-0 mt-1 w-36 bg-slate-800 border border-slate-700 rounded-xl shadow-xl z-30 py-1 text-xs">
-                <button
-                  type="button"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setShowMenu(false);
-                    onViewDetails(classItem);
-                  }}
-                  className="w-full px-3 py-2 text-left text-slate-200 hover:bg-slate-700/70 flex items-center gap-2"
-                >
-                  <Info className="w-3.5 h-3.5 text-indigo-400" />
-                  Ver Historial
-                </button>
-                <button
-                  type="button"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setShowMenu(false);
-                    onEdit(classItem);
-                  }}
-                  className="w-full px-3 py-2 text-left text-slate-200 hover:bg-slate-700/70 flex items-center gap-2"
-                >
-                  <Edit3 className="w-3.5 h-3.5 text-blue-400" />
-                  Editar Clase
-                </button>
-                <div className="h-px bg-slate-700/60 my-1" />
-                <button
-                  type="button"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setShowMenu(false);
-                    onDelete(classItem.id);
-                  }}
-                  className="w-full px-3 py-2 text-left text-rose-400 hover:bg-rose-950/40 flex items-center gap-2"
-                >
-                  <Trash2 className="w-3.5 h-3.5 text-rose-400" />
-                  Eliminar
-                </button>
+              <div className="absolute right-0 mt-1 w-36 bg-canvas border border-hairline rounded-md shadow-[0px_16px_48px_-8px_rgba(15,15,15,0.16)] z-30 py-1 text-xs divide-y divide-hairline-soft">
+                <div className="py-0.5">
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setShowMenu(false);
+                      onViewDetails(classItem);
+                    }}
+                    className="w-full px-3 py-1.5 text-left text-charcoal hover:bg-surface flex items-center gap-2"
+                  >
+                    <Info className="w-3.5 h-3.5 text-primary" />
+                    Ver Historial
+                  </button>
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setShowMenu(false);
+                      onEdit(classItem);
+                    }}
+                    className="w-full px-3 py-1.5 text-left text-charcoal hover:bg-surface flex items-center gap-2"
+                  >
+                    <Edit3 className="w-3.5 h-3.5 text-link-blue" />
+                    Editar Clase
+                  </button>
+                </div>
+                <div className="py-0.5">
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setShowMenu(false);
+                      onDelete(classItem.id);
+                    }}
+                    className="w-full px-3 py-1.5 text-left text-semantic-error hover:bg-card-tint-rose/40 flex items-center gap-2"
+                  >
+                    <Trash2 className="w-3.5 h-3.5 text-semantic-error" />
+                    Eliminar
+                  </button>
+                </div>
               </div>
             </>
           )}
         </div>
       </div>
 
-      {/* Schedule tags */}
+      {/* Schedule chips - Notion tag style */}
       {classItem.schedule && classItem.schedule.length > 0 && (
-        <div className="flex flex-wrap gap-1.5 mb-4">
+        <div className="flex flex-wrap gap-1.5 mb-3.5">
           {classItem.schedule.map((sch, idx) => (
             <span
               key={idx}
-              className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-slate-800/80 border border-slate-700/60 text-[11px] text-slate-300 font-medium"
+              className="inline-flex items-center gap-1 px-2 py-0.5 rounded-xs bg-surface border border-hairline text-[11px] text-slate font-medium"
             >
-              <Clock className="w-2.5 h-2.5 text-indigo-400" />
+              <Clock className="w-2.5 h-2.5 text-steel" />
               <span>{DAYS_MAP[sch.dayOfWeek]?.short || 'Día'}: {sch.startTime} - {sch.endTime}</span>
             </span>
           ))}
         </div>
       )}
 
-      {/* Danger Gauge Visualizer */}
-      <div className="mb-4 bg-slate-950/50 p-3 rounded-xl border border-slate-800/70">
+      {/* Danger Gauge Container */}
+      <div className="mb-3.5 bg-surface/60 p-2.5 rounded-md border border-hairline-soft">
         <DangerGauge
           absences={classItem.absences}
           maxAbsences={classItem.maxAbsences}
@@ -201,51 +203,52 @@ export const ClassCard: React.FC<ClassCardProps> = ({
         />
       </div>
 
-      {/* Interactive Absences Counter & Quick Action */}
-      <div className="flex items-center justify-between gap-3 pt-1">
+      {/* Interactive Absences Counter & Rectangular Notion Buttons */}
+      <div className="flex items-center justify-between gap-3 pt-1 border-t border-hairline-soft">
         <div
           onClick={handleTriggerSafeCheer}
           className="flex flex-col"
         >
-          <span className="text-[11px] font-medium text-slate-400 uppercase tracking-wider">
+          <span className="text-[10px] font-semibold text-steel uppercase tracking-wider">
             Inasistencias
           </span>
-          <div className="flex items-baseline gap-1.5">
-            <span className={`text-2xl font-extrabold tracking-tight ${dangerInfo.textColor}`}>
+          <div className="flex items-baseline gap-1">
+            <span className={`text-xl font-bold tracking-tight ${dangerInfo.textColor}`}>
               {classItem.absences}
             </span>
-            <span className="text-xs text-slate-400 font-medium">
+            <span className="text-xs text-steel font-normal">
               / {classItem.maxAbsences} máx
             </span>
           </div>
         </div>
 
-        {/* Counter Buttons */}
-        <div className="flex items-center gap-1.5">
+        {/* Counter Buttons - Strict rounded-md 8px Rectangles */}
+        <div className="flex items-center gap-2">
           <button
             type="button"
             disabled={classItem.absences === 0}
             onClick={handleRemoveAbsence}
             title="Deshacer 1 falta"
-            className="w-9 h-9 rounded-xl flex items-center justify-center bg-slate-800 text-slate-300 hover:bg-slate-700 hover:text-white disabled:opacity-30 disabled:pointer-events-none transition-all active:scale-95 border border-slate-700/70"
+            className="w-8 h-8 rounded-md flex items-center justify-center bg-transparent border border-hairline-strong text-charcoal hover:bg-surface disabled:opacity-30 disabled:pointer-events-none transition-colors active:bg-hairline"
           >
-            <Minus className="w-4 h-4" />
+            <Minus className="w-3.5 h-3.5" />
           </button>
 
+          {/* Primary CTA Button: Notion Purple #5645d4, rectangular rounded-md */}
           <button
             type="button"
             onClick={handleAddAbsence}
-            className={`px-4 h-9 rounded-xl flex items-center gap-1.5 font-bold text-xs shadow-md transition-all active:scale-95 ${
-              isPressing ? 'scale-95' : ''
+            className={`px-3.5 h-8 rounded-md flex items-center gap-1.5 font-medium text-xs text-on-primary transition-all active:scale-[0.98] ${
+              isPressing ? 'opacity-90' : ''
             } ${
               dangerInfo.level === 'failed'
-                ? 'bg-rose-600 hover:bg-rose-500 text-white shadow-rose-600/20'
+                ? 'bg-semantic-error hover:bg-semantic-error/90 shadow-sm'
                 : dangerInfo.level === 'danger'
-                ? 'bg-amber-600 hover:bg-amber-500 text-white shadow-amber-600/20'
-                : 'bg-indigo-600 hover:bg-indigo-500 text-white shadow-indigo-600/20'
+                ? 'bg-brand-orange hover:bg-brand-orange-deep shadow-sm'
+                : 'bg-primary hover:bg-primary-pressed shadow-sm'
             }`}
           >
-            <Plus className="w-4 h-4 stroke-[3]" />
+            <Plus className="w-3.5 h-3.5 stroke-[2.5]" />
             <span>Falta</span>
           </button>
         </div>

@@ -80,136 +80,149 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
 
   return (
     <div className="space-y-6 max-w-7xl mx-auto">
-      {/* Top Banner & KPI Row */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div>
-          <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight flex items-center gap-2">
-            <span>{courseName}</span>
-          </h1>
-          <p className="text-xs sm:text-sm text-slate-400 mt-1">
-            Control de inasistencias y marcador de límites por asignatura
-          </p>
-        </div>
+      {/* Signature Notion Deep Navy Hero Band */}
+      <div className="relative overflow-hidden rounded-lg bg-brand-navy text-on-dark p-6 sm:p-8 shadow-[0px_4px_12px_rgba(15,15,15,0.08)]">
+        {/* Decorative sticky-note dots from Notion brand spectrum */}
+        <div className="absolute top-4 right-12 w-3 h-3 rounded-full bg-brand-pink opacity-80" />
+        <div className="absolute top-10 right-28 w-2 h-2 rounded-full bg-brand-yellow opacity-70" />
+        <div className="absolute bottom-6 right-16 w-3.5 h-3.5 rounded-full bg-brand-teal opacity-75" />
+        <div className="absolute top-6 right-48 w-2.5 h-2.5 rounded-full bg-brand-purple-300 opacity-60" />
+        <div className="absolute bottom-10 right-36 w-2 h-2 rounded-full bg-brand-orange opacity-70" />
 
-        <button
-          type="button"
-          onClick={onNewClass}
-          className="px-4 py-2.5 rounded-2xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs sm:text-sm font-bold flex items-center justify-center gap-2 shadow-lg shadow-indigo-600/30 transition-all active:scale-95 shrink-0"
-        >
-          <Plus className="w-4 h-4 stroke-[2.5]" />
-          <span>Añadir Asignatura</span>
-        </button>
+        <div className="relative z-10 flex flex-col sm:flex-row sm:items-center justify-between gap-5">
+          <div className="space-y-1.5 max-w-xl">
+            <div className="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-full bg-brand-navy-mid text-on-dark-muted text-[11px] font-medium border border-white/10">
+              <span>Control de Faltas • {courseName}</span>
+            </div>
+            <h1 className="text-2xl sm:text-3xl font-semibold tracking-tight text-on-dark">
+              Tu panel de asistencia académica
+            </h1>
+            <p className="text-xs sm:text-sm text-on-dark-muted leading-relaxed">
+              Monitorea límites de inasistencias en tiempo real, consulta horarios y evita sorpresas en exámenes finales.
+            </p>
+          </div>
+
+          {/* Signature Purple Rectangular Button */}
+          <button
+            type="button"
+            onClick={onNewClass}
+            className="px-4 py-2.5 rounded-md bg-primary hover:bg-primary-pressed text-on-primary text-xs font-medium flex items-center justify-center gap-2 shadow-sm transition-all active:scale-[0.98] shrink-0"
+          >
+            <Plus className="w-4 h-4 stroke-[2.5]" />
+            <span>Añadir Asignatura</span>
+          </button>
+        </div>
       </div>
 
-      {/* KPI Cards Grid */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+      {/* KPI Cards Grid - Notion Pastel Database Properties Palette */}
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
         {/* Total Classes */}
-        <div className="p-4 rounded-2xl bg-slate-900/80 border border-slate-800 shadow-sm flex items-center gap-3">
-          <div className="p-2.5 rounded-xl bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 shrink-0">
-            <BookOpen className="w-5 h-5" />
+        <div className="p-4 rounded-lg bg-canvas border border-hairline shadow-xs flex items-center gap-3">
+          <div className="p-2 rounded-xs bg-surface text-charcoal shrink-0">
+            <BookOpen className="w-4 h-4" />
           </div>
           <div className="min-w-0">
-            <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider block truncate">
+            <span className="text-[10px] font-semibold text-steel uppercase tracking-wider block truncate">
               Asignaturas
             </span>
-            <span className="text-2xl font-extrabold text-white tracking-tight">
+            <span className="text-xl font-bold text-ink">
               {totalClasses}
             </span>
           </div>
         </div>
 
-        {/* In Danger */}
+        {/* In Danger - Card Tint Peach */}
         <div
           onClick={() => setActiveFilter(dangerClasses.length > 0 ? 'danger' : 'all')}
-          className={`p-4 rounded-2xl border shadow-sm flex items-center gap-3 cursor-pointer transition-all ${
+          className={`p-4 rounded-lg border shadow-xs flex items-center gap-3 cursor-pointer transition-colors ${
             dangerClasses.length > 0
-              ? 'bg-amber-950/25 border-amber-500/40 hover:border-amber-500/60'
-              : 'bg-slate-900/80 border-slate-800'
+              ? 'bg-card-tint-peach border-brand-orange/30 hover:border-brand-orange/50'
+              : 'bg-canvas border-hairline'
           }`}
         >
-          <div className="p-2.5 rounded-xl bg-amber-500/10 text-amber-400 border border-amber-500/20 shrink-0">
-            <AlertTriangle className="w-5 h-5" />
+          <div className="p-2 rounded-xs bg-brand-orange/10 text-brand-orange-deep shrink-0">
+            <AlertTriangle className="w-4 h-4" />
           </div>
           <div className="min-w-0">
-            <span className="text-[11px] font-bold text-amber-400 uppercase tracking-wider block truncate">
+            <span className="text-[10px] font-semibold text-brand-orange-deep uppercase tracking-wider block truncate">
               En Peligro
             </span>
-            <span className="text-2xl font-extrabold text-amber-300 tracking-tight">
+            <span className="text-xl font-bold text-brand-orange-deep">
               {dangerClasses.length}
             </span>
           </div>
         </div>
 
-        {/* Failed / Exceeded */}
+        {/* Failed - Card Tint Rose */}
         <div
           onClick={() => setActiveFilter(failedClasses.length > 0 ? 'failed' : 'all')}
-          className={`p-4 rounded-2xl border shadow-sm flex items-center gap-3 cursor-pointer transition-all ${
+          className={`p-4 rounded-lg border shadow-xs flex items-center gap-3 cursor-pointer transition-colors ${
             failedClasses.length > 0
-              ? 'bg-rose-950/25 border-rose-500/40 hover:border-rose-500/60'
-              : 'bg-slate-900/80 border-slate-800'
+              ? 'bg-card-tint-rose border-semantic-error/30 hover:border-semantic-error/50'
+              : 'bg-canvas border-hairline'
           }`}
         >
-          <div className="p-2.5 rounded-xl bg-rose-500/10 text-rose-400 border border-rose-500/20 shrink-0">
-            <XCircle className="w-5 h-5" />
+          <div className="p-2 rounded-xs bg-semantic-error/10 text-semantic-error shrink-0">
+            <XCircle className="w-4 h-4" />
           </div>
           <div className="min-w-0">
-            <span className="text-[11px] font-bold text-rose-400 uppercase tracking-wider block truncate">
+            <span className="text-[10px] font-semibold text-semantic-error uppercase tracking-wider block truncate">
               Límite Superado
             </span>
-            <span className="text-2xl font-extrabold text-rose-300 tracking-tight">
+            <span className="text-xl font-bold text-semantic-error">
               {failedClasses.length}
             </span>
           </div>
         </div>
 
-        {/* Total Absences */}
-        <div className="p-4 rounded-2xl bg-slate-900/80 border border-slate-800 shadow-sm flex items-center gap-3">
-          <div className="p-2.5 rounded-xl bg-slate-800 text-slate-300 border border-slate-700 shrink-0">
-            <TrendingDown className="w-5 h-5" />
+        {/* Total Absences - Card Tint Lavender */}
+        <div className="p-4 rounded-lg bg-card-tint-lavender/40 border border-brand-purple-300/40 shadow-xs flex items-center gap-3">
+          <div className="p-2 rounded-xs bg-brand-purple/10 text-brand-purple-800 shrink-0">
+            <TrendingDown className="w-4 h-4" />
           </div>
           <div className="min-w-0">
-            <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider block truncate">
+            <span className="text-[10px] font-semibold text-brand-purple-800 uppercase tracking-wider block truncate">
               Total Faltas
             </span>
-            <span className="text-2xl font-extrabold text-white tracking-tight">
+            <span className="text-xl font-bold text-brand-purple-800">
               {totalAbsences}
             </span>
           </div>
         </div>
       </div>
 
-      {/* Search & Filter Toolbar */}
-      <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 pt-2">
-        {/* Search Bar */}
+      {/* Search & Filter Toolbar - Notion search-pill & pill-tabs */}
+      <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 pt-1">
+        {/* Search Pill */}
         <div className="relative flex-1 max-w-md">
-          <Search className="w-4 h-4 text-slate-500 absolute left-3.5 top-1/2 -translate-y-1/2" />
+          <Search className="w-4 h-4 text-steel absolute left-3.5 top-1/2 -translate-y-1/2" />
           <input
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Buscar por materia, aula o profesor..."
-            className="w-full pl-9 pr-4 py-2 rounded-xl bg-slate-900 border border-slate-800 text-white placeholder-slate-500 text-xs focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all"
+            placeholder="Buscar por materia, aula o docente..."
+            className="w-full pl-9 pr-4 h-10 rounded-md bg-canvas border border-hairline-strong text-ink placeholder-muted text-xs focus:outline-none focus:border-2 focus:border-primary transition-colors"
           />
           {searchQuery && (
             <button
               type="button"
               onClick={() => setSearchQuery('')}
-              className="text-xs text-slate-500 hover:text-white absolute right-3 top-1/2 -translate-y-1/2"
+              className="text-xs text-steel hover:text-ink absolute right-3 top-1/2 -translate-y-1/2"
             >
               Limpiar
             </button>
           )}
         </div>
 
-        {/* Filter Chips */}
+        {/* Filter Pill Tabs */}
         <div className="flex items-center gap-1.5 overflow-x-auto pb-1 sm:pb-0">
           <button
             type="button"
             onClick={() => setActiveFilter('all')}
-            className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all shrink-0 ${
+            className={`px-3 py-1 rounded-full text-xs font-medium transition-colors shrink-0 ${
               activeFilter === 'all'
-                ? 'bg-indigo-600 text-white shadow'
-                : 'bg-slate-900 text-slate-400 hover:text-white border border-slate-800'
+                ? 'bg-ink-deep text-on-dark'
+                : 'bg-canvas text-steel hover:text-ink border border-hairline hover:bg-surface'
             }`}
           >
             Todas ({totalClasses})
@@ -217,37 +230,37 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
           <button
             type="button"
             onClick={() => setActiveFilter('danger')}
-            className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all shrink-0 flex items-center gap-1 ${
+            className={`px-3 py-1 rounded-full text-xs font-medium transition-colors shrink-0 flex items-center gap-1 ${
               activeFilter === 'danger'
-                ? 'bg-amber-600 text-white shadow'
-                : 'bg-slate-900 text-amber-400/80 hover:text-amber-300 border border-slate-800'
+                ? 'bg-ink-deep text-on-dark'
+                : 'bg-canvas text-brand-orange-deep hover:bg-card-tint-peach/40 border border-brand-orange/30'
             }`}
           >
-            <AlertTriangle className="w-3 h-3" />
+            <AlertTriangle className="w-3 h-3 text-brand-orange" />
             <span>En Peligro ({dangerClasses.length})</span>
           </button>
           <button
             type="button"
             onClick={() => setActiveFilter('failed')}
-            className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all shrink-0 flex items-center gap-1 ${
+            className={`px-3 py-1 rounded-full text-xs font-medium transition-colors shrink-0 flex items-center gap-1 ${
               activeFilter === 'failed'
-                ? 'bg-rose-600 text-white shadow'
-                : 'bg-slate-900 text-rose-400/80 hover:text-rose-300 border border-slate-800'
+                ? 'bg-ink-deep text-on-dark'
+                : 'bg-canvas text-semantic-error hover:bg-card-tint-rose/40 border border-semantic-error/30'
             }`}
           >
-            <XCircle className="w-3 h-3" />
+            <XCircle className="w-3 h-3 text-semantic-error" />
             <span>Reprobadas ({failedClasses.length})</span>
           </button>
           <button
             type="button"
             onClick={() => setActiveFilter('safe')}
-            className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all shrink-0 flex items-center gap-1 ${
+            className={`px-3 py-1 rounded-full text-xs font-medium transition-colors shrink-0 flex items-center gap-1 ${
               activeFilter === 'safe'
-                ? 'bg-emerald-600 text-white shadow'
-                : 'bg-slate-900 text-emerald-400/80 hover:text-emerald-300 border border-slate-800'
+                ? 'bg-ink-deep text-on-dark'
+                : 'bg-canvas text-brand-green hover:bg-card-tint-mint/40 border border-brand-green/30'
             }`}
           >
-            <CheckCircle2 className="w-3 h-3" />
+            <CheckCircle2 className="w-3 h-3 text-brand-green" />
             <span>Seguras ({safeClasses.length})</span>
           </button>
         </div>
@@ -255,39 +268,39 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
 
       {/* Class Cards Grid */}
       {filteredClasses.length === 0 ? (
-        <div className="p-12 text-center rounded-3xl bg-slate-900/40 border border-dashed border-slate-800 space-y-4">
-          <div className="w-14 h-14 rounded-2xl bg-indigo-600/10 text-indigo-400 flex items-center justify-center mx-auto border border-indigo-500/20">
-            <BookOpen className="w-7 h-7" />
+        <div className="p-10 text-center rounded-lg bg-canvas border border-dashed border-hairline space-y-3">
+          <div className="w-12 h-12 rounded-md bg-card-tint-lavender text-brand-purple-800 flex items-center justify-center mx-auto">
+            <BookOpen className="w-6 h-6" />
           </div>
           {totalClasses === 0 ? (
             <>
-              <h3 className="text-lg font-bold text-white">No tienes asignaturas creadas</h3>
-              <p className="text-xs text-slate-400 max-w-md mx-auto">
+              <h3 className="text-base font-semibold text-ink">No tienes asignaturas creadas</h3>
+              <p className="text-xs text-steel max-w-md mx-auto">
                 Comienza creando tus materias con su límite de faltas permitido y horario semanal, o carga un semestre de ejemplo.
               </p>
-              <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
+              <div className="flex flex-wrap items-center justify-center gap-2.5 pt-2">
                 <button
                   type="button"
                   onClick={onNewClass}
-                  className="px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold flex items-center gap-2 shadow-lg shadow-indigo-600/30"
+                  className="px-4 py-2 rounded-md bg-primary hover:bg-primary-pressed text-on-primary text-xs font-medium flex items-center gap-1.5 shadow-sm"
                 >
-                  <Plus className="w-4 h-4" />
+                  <Plus className="w-3.5 h-3.5" />
                   <span>Crear Asignatura</span>
                 </button>
                 <button
                   type="button"
                   onClick={onLoadDemo}
-                  className="px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold flex items-center gap-2 border border-slate-700"
+                  className="px-3.5 py-2 rounded-md bg-canvas hover:bg-surface text-charcoal border border-hairline-strong text-xs font-medium flex items-center gap-1.5"
                 >
-                  <Sparkles className="w-4 h-4 text-amber-400" />
-                  <span>Cargar Datos de Ejemplo</span>
+                  <Sparkles className="w-3.5 h-3.5 text-brand-orange" />
+                  <span>Cargar Demo</span>
                 </button>
               </div>
             </>
           ) : (
             <>
-              <h3 className="text-base font-bold text-white">No se encontraron asignaturas</h3>
-              <p className="text-xs text-slate-400">
+              <h3 className="text-sm font-semibold text-ink">No se encontraron asignaturas</h3>
+              <p className="text-xs text-steel">
                 Ninguna asignatura coincide con los filtros o búsqueda actuales.
               </p>
               <button
@@ -296,7 +309,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
                   setSearchQuery('');
                   setActiveFilter('all');
                 }}
-                className="px-4 py-2 rounded-xl bg-slate-800 text-slate-300 text-xs font-semibold"
+                className="px-3 py-1.5 rounded-md bg-surface text-charcoal border border-hairline text-xs font-medium"
               >
                 Restablecer filtros
               </button>
@@ -304,7 +317,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
           )}
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3.5">
           {filteredClasses.map((cls) => (
             <ClassCard
               key={cls.id}

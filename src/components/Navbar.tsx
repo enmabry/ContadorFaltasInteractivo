@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import type { Course } from '../types';
 import { CourseSelector } from './CourseSelector';
 import {
-  ShieldCheck,
   Calendar,
   Clock,
   LayoutGrid,
@@ -67,7 +66,7 @@ export const Navbar: React.FC<NavbarProps> = ({
   };
 
   return (
-    <header className="sticky top-0 z-40 bg-slate-950/85 backdrop-blur-md border-b border-slate-800/80 transition-all">
+    <header className="sticky top-0 z-40 bg-canvas/95 backdrop-blur-md border-b border-hairline transition-all">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 gap-3">
           {/* Logo & Course Selector */}
@@ -76,20 +75,20 @@ export const Navbar: React.FC<NavbarProps> = ({
               onClick={() => onTabChange('dashboard')}
               className="flex items-center gap-2.5 cursor-pointer group select-none"
             >
-              <div className="w-10 h-10 rounded-2xl bg-gradient-to-tr from-indigo-600 via-indigo-500 to-purple-500 flex items-center justify-center shadow-lg shadow-indigo-600/30 group-hover:scale-105 transition-transform">
-                <ShieldCheck className="w-5 h-5 text-white stroke-[2.2]" />
+              <div className="w-8 h-8 rounded-md bg-ink-deep text-on-dark flex items-center justify-center font-bold text-sm shadow-sm transition-transform group-hover:scale-105">
+                N
               </div>
               <div className="hidden sm:block">
-                <span className="text-base font-extrabold text-white tracking-tight flex items-center gap-1.5">
-                  Faltas<span className="text-indigo-400">App</span>
+                <span className="text-sm font-semibold text-ink tracking-tight flex items-center gap-1">
+                  Faltas<span className="text-primary font-bold">App</span>
                 </span>
-                <span className="block text-[10px] text-slate-400 font-semibold tracking-wider uppercase -mt-0.5">
-                  Control de Inasistencias
+                <span className="block text-[10px] text-steel font-medium tracking-wide">
+                  Workspace de Asistencias
                 </span>
               </div>
             </div>
 
-            <div className="h-6 w-px bg-slate-800 hidden sm:block" />
+            <div className="h-5 w-px bg-hairline hidden sm:block" />
 
             {/* Course Selector */}
             <CourseSelector
@@ -102,15 +101,15 @@ export const Navbar: React.FC<NavbarProps> = ({
             />
           </div>
 
-          {/* Desktop Navigation Tabs */}
-          <nav className="hidden md:flex items-center gap-1 bg-slate-900/90 p-1 rounded-2xl border border-slate-800 text-xs font-semibold">
+          {/* Desktop Navigation - Notion pill-tabs */}
+          <nav className="hidden md:flex items-center gap-1.5 text-xs font-medium">
             <button
               type="button"
               onClick={() => onTabChange('dashboard')}
-              className={`px-3.5 py-1.5 rounded-xl transition-all flex items-center gap-1.5 ${
+              className={`px-3.5 py-1.5 rounded-full transition-all flex items-center gap-1.5 ${
                 activeTab === 'dashboard'
-                  ? 'bg-indigo-600 text-white shadow-sm'
-                  : 'text-slate-400 hover:text-white hover:bg-slate-800'
+                  ? 'bg-ink-deep text-on-dark shadow-sm'
+                  : 'text-steel hover:text-ink border border-hairline bg-transparent hover:bg-surface'
               }`}
             >
               <LayoutGrid className="w-3.5 h-3.5" />
@@ -119,10 +118,10 @@ export const Navbar: React.FC<NavbarProps> = ({
             <button
               type="button"
               onClick={() => onTabChange('today')}
-              className={`px-3.5 py-1.5 rounded-xl transition-all flex items-center gap-1.5 ${
+              className={`px-3.5 py-1.5 rounded-full transition-all flex items-center gap-1.5 ${
                 activeTab === 'today'
-                  ? 'bg-indigo-600 text-white shadow-sm'
-                  : 'text-slate-400 hover:text-white hover:bg-slate-800'
+                  ? 'bg-ink-deep text-on-dark shadow-sm'
+                  : 'text-steel hover:text-ink border border-hairline bg-transparent hover:bg-surface'
               }`}
             >
               <Clock className="w-3.5 h-3.5" />
@@ -131,10 +130,10 @@ export const Navbar: React.FC<NavbarProps> = ({
             <button
               type="button"
               onClick={() => onTabChange('weekly')}
-              className={`px-3.5 py-1.5 rounded-xl transition-all flex items-center gap-1.5 ${
+              className={`px-3.5 py-1.5 rounded-full transition-all flex items-center gap-1.5 ${
                 activeTab === 'weekly'
-                  ? 'bg-indigo-600 text-white shadow-sm'
-                  : 'text-slate-400 hover:text-white hover:bg-slate-800'
+                  ? 'bg-ink-deep text-on-dark shadow-sm'
+                  : 'text-steel hover:text-ink border border-hairline bg-transparent hover:bg-surface'
               }`}
             >
               <Calendar className="w-3.5 h-3.5" />
@@ -142,19 +141,19 @@ export const Navbar: React.FC<NavbarProps> = ({
             </button>
           </nav>
 
-          {/* Right Action Icons */}
+          {/* Right Action Icons & Primary CTA */}
           <div className="flex items-center gap-2">
             {/* Catch-up Notification trigger */}
             {pendingPromptsCount > 0 && (
               <button
                 type="button"
                 onClick={onOpenCatchUp}
-                className="relative flex items-center gap-1.5 px-3 py-2 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-300 hover:bg-amber-500/20 text-xs font-bold transition-all animate-bounce"
+                className="relative flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-card-tint-peach border border-brand-orange/40 text-brand-orange-deep hover:bg-card-tint-peach/80 text-xs font-semibold transition-all animate-bounce"
                 title={`${pendingPromptsCount} clases pendientes de confirmar`}
               >
-                <Bell className="w-4 h-4 text-amber-400" />
+                <Bell className="w-3.5 h-3.5 text-brand-orange" />
                 <span className="hidden sm:inline">Ponerse al día</span>
-                <span className="w-5 h-5 rounded-full bg-amber-500 text-slate-950 flex items-center justify-center text-[10px] font-extrabold">
+                <span className="w-4 h-4 rounded-full bg-brand-orange text-on-dark flex items-center justify-center text-[10px] font-bold">
                   {pendingPromptsCount}
                 </span>
               </button>
@@ -165,10 +164,10 @@ export const Navbar: React.FC<NavbarProps> = ({
               <button
                 type="button"
                 onClick={handleInstallPWA}
-                className="p-2 sm:px-3 sm:py-2 rounded-xl bg-indigo-600/20 hover:bg-indigo-600/30 border border-indigo-500/40 text-indigo-300 text-xs font-bold flex items-center gap-1.5 transition-all"
+                className="px-3 py-1.5 rounded-md border border-hairline-strong text-charcoal hover:bg-surface text-xs font-medium flex items-center gap-1.5 transition-colors"
                 title="Instalar como App en tu móvil o PC"
               >
-                <Download className="w-4 h-4" />
+                <Download className="w-3.5 h-3.5" />
                 <span className="hidden sm:inline">Instalar App</span>
               </button>
             )}
@@ -177,31 +176,31 @@ export const Navbar: React.FC<NavbarProps> = ({
             <button
               type="button"
               onClick={onOpenBackup}
-              className="p-2 rounded-xl bg-slate-900 border border-slate-800 text-slate-400 hover:text-white hover:border-slate-700 transition-colors"
+              className="p-2 rounded-md border border-hairline-strong text-charcoal hover:bg-surface hover:text-ink transition-colors"
               title="Copias de Seguridad y Datos"
             >
               <HardDrive className="w-4 h-4" />
             </button>
 
-            {/* Quick Add Class button */}
+            {/* Primary Action Button: Signature Notion Purple #5645d4, rectangular rounded-md (8px) */}
             <button
               type="button"
               onClick={onNewClass}
-              className="px-3.5 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold flex items-center gap-1.5 shadow-md shadow-indigo-600/25 transition-all active:scale-95"
+              className="px-3.5 py-1.5 rounded-md bg-primary hover:bg-primary-pressed text-on-primary text-xs font-medium flex items-center gap-1.5 shadow-sm transition-all active:scale-[0.98]"
             >
-              <Plus className="w-4 h-4 stroke-[2.5]" />
+              <Plus className="w-3.5 h-3.5 stroke-[2.5]" />
               <span className="hidden sm:inline">Nueva Clase</span>
             </button>
           </div>
         </div>
 
-        {/* Mobile Bottom-bar Navigation (shown on small screens) */}
-        <div className="md:hidden flex items-center justify-around py-2 border-t border-slate-900 text-xs font-medium">
+        {/* Mobile Navigation */}
+        <div className="md:hidden flex items-center justify-around py-2 border-t border-hairline text-xs font-medium">
           <button
             type="button"
             onClick={() => onTabChange('dashboard')}
-            className={`flex flex-col items-center gap-1 py-1 px-3 rounded-xl ${
-              activeTab === 'dashboard' ? 'text-indigo-400 font-bold' : 'text-slate-400'
+            className={`flex flex-col items-center gap-1 py-1 px-3 rounded-md ${
+              activeTab === 'dashboard' ? 'text-primary font-semibold' : 'text-steel'
             }`}
           >
             <LayoutGrid className="w-4 h-4" />
@@ -210,8 +209,8 @@ export const Navbar: React.FC<NavbarProps> = ({
           <button
             type="button"
             onClick={() => onTabChange('today')}
-            className={`flex flex-col items-center gap-1 py-1 px-3 rounded-xl ${
-              activeTab === 'today' ? 'text-indigo-400 font-bold' : 'text-slate-400'
+            className={`flex flex-col items-center gap-1 py-1 px-3 rounded-md ${
+              activeTab === 'today' ? 'text-primary font-semibold' : 'text-steel'
             }`}
           >
             <Clock className="w-4 h-4" />
@@ -220,8 +219,8 @@ export const Navbar: React.FC<NavbarProps> = ({
           <button
             type="button"
             onClick={() => onTabChange('weekly')}
-            className={`flex flex-col items-center gap-1 py-1 px-3 rounded-xl ${
-              activeTab === 'weekly' ? 'text-indigo-400 font-bold' : 'text-slate-400'
+            className={`flex flex-col items-center gap-1 py-1 px-3 rounded-md ${
+              activeTab === 'weekly' ? 'text-primary font-semibold' : 'text-steel'
             }`}
           >
             <Calendar className="w-4 h-4" />

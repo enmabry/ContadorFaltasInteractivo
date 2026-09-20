@@ -100,7 +100,6 @@ export function App() {
 
     if (editingClass) {
       updateClass(activeCourse.id, editingClass.id, data);
-      // Also update selectedClassDetail if it's currently open
       if (selectedClassDetail?.id === editingClass.id) {
         setSelectedClassDetail({
           ...selectedClassDetail,
@@ -144,8 +143,8 @@ export function App() {
   }, [selectedClassDetail, activeCourse]);
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col antialiased">
-      {/* Navbar Header */}
+    <div className="min-h-screen bg-surface-soft text-charcoal flex flex-col antialiased">
+      {/* Notion Top Navigation */}
       <Navbar
         courses={courses}
         activeCourseId={activeCourse?.id || null}
@@ -164,23 +163,23 @@ export function App() {
       {/* Main Content Area */}
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
         {!activeCourse ? (
-          <div className="p-12 text-center rounded-3xl bg-slate-900/60 border border-dashed border-slate-800 space-y-4 max-w-md mx-auto my-12">
-            <h2 className="text-xl font-bold text-white">No tienes periodos creados</h2>
-            <p className="text-xs text-slate-400">
+          <div className="p-10 text-center rounded-lg bg-canvas border border-hairline space-y-3.5 max-w-md mx-auto my-12 shadow-xs">
+            <h2 className="text-lg font-bold text-ink">No tienes periodos creados</h2>
+            <p className="text-xs text-steel">
               Crea tu primer periodo académico o carga los datos de ejemplo para empezar a llevar el control de tus faltas.
             </p>
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-2.5 pt-2">
               <button
                 type="button"
                 onClick={handleOpenNewCourse}
-                className="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold shadow-lg shadow-indigo-600/30"
+                className="w-full sm:w-auto px-4 py-2 rounded-md bg-primary hover:bg-primary-pressed text-on-primary text-xs font-medium shadow-xs"
               >
                 Crear Periodo
               </button>
               <button
                 type="button"
                 onClick={resetToDemo}
-                className="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold border border-slate-700"
+                className="w-full sm:w-auto px-4 py-2 rounded-md bg-canvas hover:bg-surface text-charcoal text-xs font-medium border border-hairline-strong"
               >
                 Cargar Demo
               </button>
@@ -224,10 +223,10 @@ export function App() {
         )}
       </main>
 
-      {/* Footer */}
-      <footer className="py-6 border-t border-slate-900 text-center text-xs text-slate-500">
+      {/* Footer - Notion footer-region */}
+      <footer className="py-6 border-t border-hairline bg-canvas text-center text-xs text-steel">
         <p>
-          Contador de Faltas Interactivo • PWA Offline First • Datos guardados localmente
+          Contador de Faltas Interactivo • Notion Design System • PWA Offline-First
         </p>
       </footer>
 

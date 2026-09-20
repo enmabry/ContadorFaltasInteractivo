@@ -4,7 +4,7 @@ export const INITIAL_DEMO_COURSES: Course[] = [
   {
     id: 'demo-course-1',
     name: 'Semestre Actual 2026',
-    color: '#6366f1',
+    color: '#5645d4', // Notion primary purple
     createdAt: Date.now() - 1000 * 60 * 60 * 24 * 30,
     classes: [
       {
@@ -14,7 +14,7 @@ export const INITIAL_DEMO_COURSES: Course[] = [
         maxAbsences: 5,
         room: 'Aula 304 - Edificio B',
         professor: 'Dr. Roberto Mendoza',
-        color: '#3b82f6', // blue
+        color: '#0075de', // link-blue
         notes: 'Pasan lista estricta a los 10 minutos.',
         createdAt: Date.now() - 1000 * 60 * 60 * 24 * 25,
         schedule: [
@@ -29,7 +29,7 @@ export const INITIAL_DEMO_COURSES: Course[] = [
         maxAbsences: 4,
         room: 'Laboratorio de Computación 2',
         professor: 'Ing. Sandra López',
-        color: '#f59e0b', // amber
+        color: '#dd5b00', // brand-orange
         notes: '¡Cuidado! A solo 1 falta de perder derecho a examen final.',
         createdAt: Date.now() - 1000 * 60 * 60 * 24 * 20,
         schedule: [
@@ -44,7 +44,7 @@ export const INITIAL_DEMO_COURSES: Course[] = [
         maxAbsences: 6,
         room: 'Aula 102 - Ciencias',
         professor: 'Prof. Carlos Santana',
-        color: '#10b981', // emerald
+        color: '#1aae39', // brand-green
         notes: 'Permite entregar justificante médico hasta 3 días hábiles.',
         createdAt: Date.now() - 1000 * 60 * 60 * 24 * 15,
         schedule: [
@@ -59,7 +59,7 @@ export const INITIAL_DEMO_COURSES: Course[] = [
         maxAbsences: 4,
         room: 'Lab Sistemas 1',
         professor: 'Dra. María Varela',
-        color: '#8b5cf6', // purple
+        color: '#7b3ff2', // brand-purple
         notes: 'Asistencia perfecta hasta ahora.',
         createdAt: Date.now() - 1000 * 60 * 60 * 24 * 10,
         schedule: [
@@ -74,7 +74,7 @@ export const INITIAL_DEMO_COURSES: Course[] = [
         maxAbsences: 5,
         room: 'Salón 201',
         professor: 'Msc. Fernando Ruiz',
-        color: '#ef4444', // red
+        color: '#e03131', // semantic-error
         notes: 'Límite máximo alcanzado. Hablar con coordinación si hay justificación.',
         createdAt: Date.now() - 1000 * 60 * 60 * 24 * 5,
         schedule: [

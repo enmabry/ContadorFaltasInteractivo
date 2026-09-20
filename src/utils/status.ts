@@ -17,35 +17,35 @@ export function calculateDangerInfo(absences: number, maxAbsences: number): Dang
   if (absences >= safeMax) {
     level = 'failed';
     label = 'Límite superado (Reprobado)';
-    bgColor = 'bg-rose-950/40';
-    textColor = 'text-rose-400';
-    borderColor = 'border-rose-500/40';
-    badgeBg = 'bg-rose-500/20 text-rose-300 border-rose-500/30';
-    progressBarColor = 'bg-gradient-to-r from-rose-600 to-red-500';
+    bgColor = 'bg-card-tint-rose';
+    textColor = 'text-semantic-error';
+    borderColor = 'border-semantic-error/30';
+    badgeBg = 'bg-card-tint-rose text-semantic-error border-semantic-error/30';
+    progressBarColor = 'bg-semantic-error';
   } else if (remaining === 1 || rawRatio >= 0.75) {
     level = 'danger';
     label = remaining === 1 ? '¡Peligro! A 1 falta del límite' : 'Zona de Peligro';
-    bgColor = 'bg-amber-950/40';
-    textColor = 'text-amber-400';
-    borderColor = 'border-amber-500/40';
-    badgeBg = 'bg-amber-500/20 text-amber-300 border-amber-500/30';
-    progressBarColor = 'bg-gradient-to-r from-amber-500 to-orange-500';
+    bgColor = 'bg-card-tint-peach';
+    textColor = 'text-brand-orange-deep';
+    borderColor = 'border-brand-orange/40';
+    badgeBg = 'bg-card-tint-peach text-brand-orange-deep border-brand-orange/40';
+    progressBarColor = 'bg-brand-orange';
   } else if (rawRatio >= 0.35) {
     level = 'warning';
     label = 'Atención requerida';
-    bgColor = 'bg-yellow-950/30';
-    textColor = 'text-yellow-400';
-    borderColor = 'border-yellow-500/30';
-    badgeBg = 'bg-yellow-500/20 text-yellow-300 border-yellow-500/30';
-    progressBarColor = 'bg-gradient-to-r from-yellow-400 to-amber-500';
+    bgColor = 'bg-card-tint-yellow';
+    textColor = 'text-brand-brown';
+    borderColor = 'border-hairline-strong';
+    badgeBg = 'bg-card-tint-yellow text-brand-brown border-hairline-strong';
+    progressBarColor = 'bg-brand-yellow';
   } else {
     level = 'safe';
     label = 'Bajo control';
-    bgColor = 'bg-emerald-950/30';
-    textColor = 'text-emerald-400';
-    borderColor = 'border-emerald-500/30';
-    badgeBg = 'bg-emerald-500/20 text-emerald-300 border-emerald-500/30';
-    progressBarColor = 'bg-gradient-to-r from-emerald-500 to-teal-400';
+    bgColor = 'bg-card-tint-mint';
+    textColor = 'text-brand-green';
+    borderColor = 'border-brand-green/30';
+    badgeBg = 'bg-card-tint-mint text-brand-green border-brand-green/30';
+    progressBarColor = 'bg-brand-green';
   }
 
   return {
