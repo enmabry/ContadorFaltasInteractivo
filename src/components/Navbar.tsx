@@ -76,7 +76,7 @@ export const Navbar: React.FC<NavbarProps> = ({
 
   return (
     <header className="sticky top-0 z-40 bg-canvas/95 backdrop-blur-md border-b border-hairline transition-all">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto px-4.5 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 gap-3">
           {/* Logo & Course Selector */}
           <div className="flex items-center gap-3 sm:gap-4">
@@ -169,13 +169,13 @@ export const Navbar: React.FC<NavbarProps> = ({
           </nav>
 
           {/* Right Action Icons & Primary CTA */}
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
             {/* Catch-up Notification trigger */}
             {pendingPromptsCount > 0 && (
               <button
                 type="button"
                 onClick={onOpenCatchUp}
-                className="relative flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-card-tint-peach border border-brand-orange/40 text-brand-orange-deep hover:bg-card-tint-peach/80 text-xs font-semibold transition-all animate-bounce"
+                className="relative flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-card-tint-peach border border-brand-orange/40 text-brand-orange-deep hover:bg-card-tint-peach/80 text-xs font-semibold transition-all animate-bounce shrink-0"
                 title={`${pendingPromptsCount} clases pendientes de confirmar`}
               >
                 <Bell className="w-3.5 h-3.5 text-brand-orange" />
@@ -190,19 +190,19 @@ export const Navbar: React.FC<NavbarProps> = ({
             <button
               type="button"
               onClick={handleInstallClick}
-              className="px-2.5 sm:px-3 py-1.5 rounded-md border border-hairline-strong text-charcoal hover:bg-surface text-xs font-medium flex items-center gap-1.5 transition-colors"
+              className="px-2.5 sm:px-3 py-1.5 rounded-md border border-hairline-strong text-charcoal hover:bg-surface text-xs font-medium flex items-center gap-1.5 transition-colors shrink-0"
               title="Instalar como App en tu móvil (iOS / Android)"
             >
               {deferredPrompt ? <Download className="w-3.5 h-3.5 text-primary" /> : <Smartphone className="w-3.5 h-3.5 text-steel" />}
               <span className="hidden sm:inline">Instalar App</span>
             </button>
 
-            {/* Share Course / QR button */}
+            {/* Share Course / QR button (hidden on mobile, already prominent in dashboard hero) */}
             <button
               type="button"
               onClick={onOpenShareCourse}
               disabled={!activeCourseId}
-              className="p-2 rounded-md border border-hairline-strong text-charcoal hover:bg-surface hover:text-ink transition-colors disabled:opacity-40"
+              className="hidden sm:inline-flex p-2 rounded-md border border-hairline-strong text-charcoal hover:bg-surface hover:text-ink transition-colors disabled:opacity-40 shrink-0"
               title="Compartir periodo (Código QR / Enlace)"
             >
               <QrCode className="w-4 h-4" />
@@ -212,17 +212,18 @@ export const Navbar: React.FC<NavbarProps> = ({
             <button
               type="button"
               onClick={onOpenBackup}
-              className="p-2 rounded-md border border-hairline-strong text-charcoal hover:bg-surface hover:text-ink transition-colors"
+              className="p-2 rounded-md border border-hairline-strong text-charcoal hover:bg-surface hover:text-ink transition-colors shrink-0"
               title="Copias de Seguridad y Datos"
             >
               <HardDrive className="w-4 h-4" />
             </button>
 
-            {/* Primary Action Button: Signature Notion Purple #5645d4, rectangular rounded-md (8px) */}
+            {/* Primary Action Button: Signature Notion Purple, rectangular rounded-md (8px) */}
             <button
               type="button"
               onClick={onNewClass}
-              className="px-3.5 py-1.5 rounded-md bg-primary hover:bg-primary-pressed text-on-primary text-xs font-medium flex items-center gap-1.5 shadow-sm transition-all active:scale-[0.98]"
+              className="p-2 sm:px-3.5 sm:py-1.5 rounded-md bg-primary hover:bg-primary-pressed text-on-primary text-xs font-medium flex items-center justify-center gap-1.5 shadow-sm transition-all active:scale-[0.98] shrink-0"
+              title="Nueva Clase"
             >
               <Plus className="w-3.5 h-3.5 stroke-[2.5]" />
               <span className="hidden sm:inline">Nueva Clase</span>

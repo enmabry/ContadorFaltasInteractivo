@@ -33,7 +33,7 @@ export const CourseSelector: React.FC<CourseSelectorProps> = ({
           className="w-2.5 h-2.5 rounded-full shrink-0"
           style={{ backgroundColor: activeCourse?.color || '#5645d4' }}
         />
-        <span className="truncate max-w-[140px] sm:max-w-[180px] font-semibold text-ink">
+        <span className="truncate max-w-[100px] sm:max-w-[180px] font-semibold text-ink">
           {activeCourse ? activeCourse.name : 'Sin Periodo'}
         </span>
         <ChevronDown className="w-3.5 h-3.5 text-steel shrink-0" />
