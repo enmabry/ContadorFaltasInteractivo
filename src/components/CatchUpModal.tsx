@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import type { PendingAttendancePrompt } from '../types';
 import { calculateDangerInfo } from '../utils/status';
 import { Check, X, Bell, Calendar, Clock, AlertTriangle, ChevronRight, Slash } from 'lucide-react';
@@ -24,6 +24,16 @@ export const CatchUpModal: React.FC<CatchUpModalProps> = ({
   onDismissPrompt
 }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
+
+  useEffect(() => {
+    if (isOpen && prompts.length > 0 && typeof navigator !== 'undefined' && 'vibrate' in navigator) {
+      try {
+        navigator.vibrate([100, 50, 100]);
+      } catch {
+        // Vibration ignored if unavailable
+      }
+    }
+  }, [isOpen, prompts.length]);
 
   if (!isOpen || prompts.length === 0) return null;
 
