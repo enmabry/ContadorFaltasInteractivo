@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useGoogleLogin } from '@react-oauth/google';
-import { Calendar, Loader2, Settings } from 'lucide-react';
+import { Loader2, Settings } from 'lucide-react';
 import { useAttendanceStore } from '../store/useAttendanceStore';
 import type { ClassItem, Schedule } from '../types';
 import { useGoogleAuth } from '../context/GoogleAuthContext';
@@ -21,9 +21,38 @@ const NOTION_PALETTE = [
 
 interface CalendarImportBtnProps {
   courseId: string;
+  label?: string;
+  variant?: 'default' | 'hero' | 'full';
+  onSuccess?: () => void;
 }
 
-export const CalendarImportBtn: React.FC<CalendarImportBtnProps> = ({ courseId }) => {
+const GoogleIcon = () => (
+  <svg className="w-3.5 h-3.5 shrink-0" viewBox="0 0 24 24">
+    <path
+      fill="#4285F4"
+      d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.665-5.17 3.665-9.17z"
+    />
+    <path
+      fill="#34A853"
+      d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.25v3.15C3.26 21.36 7.35 24 12 24z"
+    />
+    <path
+      fill="#FBBC05"
+      d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.58H1.25C.45 8.18 0 9.99 0 12s.45 3.82 1.25 5.42l4.03-3.15z"
+    />
+    <path
+      fill="#EA4335"
+      d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.35 0 3.26 2.64 1.25 6.58l4.03 3.15c.95-2.83 3.6-4.98 6.72-4.98z"
+    />
+  </svg>
+);
+
+export const CalendarImportBtn: React.FC<CalendarImportBtnProps> = ({
+  courseId,
+  label = 'Sincronizar con Google Calendar',
+  variant = 'default',
+  onSuccess
+}) => {
   const [loading, setLoading] = useState(false);
   const [showConfigModal, setShowConfigModal] = useState(false);
   const [showPreviewModal, setShowPreviewModal] = useState(false);
@@ -92,7 +121,6 @@ export const CalendarImportBtn: React.FC<CalendarImportBtnProps> = ({ courseId }
       let colorIndex = 0;
 
       data.items.forEach((event: any) => {
-        // Skip all-day events or events without summary
         if (!event.start?.dateTime || !event.end?.dateTime || !event.summary?.trim()) {
           return;
         }
@@ -112,7 +140,6 @@ export const CalendarImportBtn: React.FC<CalendarImportBtnProps> = ({ courseId }
         const className = event.summary.trim();
 
         if (grouped[className]) {
-          // Avoid duplicate schedule in same day & time
           const exists = grouped[className].schedules.some(
             (s) =>
               s.dayOfWeek === scheduleItem.dayOfWeek &&
@@ -149,12 +176,11 @@ export const CalendarImportBtn: React.FC<CalendarImportBtnProps> = ({ courseId }
         return;
       }
 
-      // 4. Open preview modal for user to select & configure
       setDiscoveredClasses(discovered);
       setShowPreviewModal(true);
     } catch (error) {
       console.error('Error importando calendario:', error);
-      alert('Hubo un error al conectar con Google Calendar. Verifica que tu Client ID tenga habilitada la API.');
+      alert('Hubo un error al conectar con Google Calendar. Verifica que tu Client ID tenga autorizados los orígenes de JavaScript.');
     } finally {
       setLoading(false);
     }
@@ -187,41 +213,53 @@ export const CalendarImportBtn: React.FC<CalendarImportBtnProps> = ({ courseId }
       spread: 70,
       origin: { y: 0.7 },
     });
+
+    if (onSuccess) {
+      onSuccess();
+    }
   };
+
+  const buttonClasses =
+    variant === 'hero'
+      ? 'flex items-center gap-2 px-3.5 py-2 text-xs font-medium text-charcoal bg-canvas hover:bg-surface border border-hairline-strong rounded-md transition-all shadow-xs'
+      : variant === 'full'
+      ? 'w-full flex items-center justify-center gap-2 py-2.5 px-4 text-xs font-medium text-charcoal bg-surface hover:bg-hairline border border-hairline-strong rounded-md transition-colors'
+      : 'flex items-center gap-2 px-3 py-1.5 text-xs font-medium text-charcoal bg-canvas hover:bg-surface border border-hairline-strong rounded-md transition-colors shadow-xs';
 
   return (
     <>
-      <div className="inline-flex items-center gap-1">
+      <div className={variant === 'full' ? 'w-full' : 'inline-flex items-center gap-1'}>
         <button
           type="button"
           onClick={handleClick}
           disabled={loading}
-          className="flex items-center gap-2 px-3.5 py-1.5 text-xs font-medium text-charcoal bg-canvas hover:bg-surface border border-hairline-strong rounded-md transition-colors shadow-xs active:bg-hairline"
-          title={isConfigured ? 'Importar materias de Google Calendar' : 'Configurar Google Calendar Client ID'}
+          className={buttonClasses}
+          title="Importar materias de Google Calendar"
         >
           {loading ? (
             <Loader2 className="w-3.5 h-3.5 animate-spin text-primary" />
           ) : (
-            <Calendar className="w-3.5 h-3.5 text-primary" />
+            <GoogleIcon />
           )}
-          <span>{loading ? 'Leyendo calendario...' : 'Google Calendar'}</span>
+          <span>{loading ? 'Leyendo calendario...' : label}</span>
         </button>
 
-        <button
-          type="button"
-          onClick={() => setShowConfigModal(true)}
-          className="p-1.5 text-steel hover:text-ink rounded-md hover:bg-surface border border-hairline transition-colors"
-          title="Configurar Google Client ID"
-        >
-          <Settings className="w-3.5 h-3.5" />
-        </button>
+        {variant !== 'full' && (
+          <button
+            type="button"
+            onClick={() => setShowConfigModal(true)}
+            className="p-1.5 text-steel hover:text-ink rounded-md hover:bg-surface border border-hairline transition-colors"
+            title="Configurar Google Client ID"
+          >
+            <Settings className="w-3.5 h-3.5" />
+          </button>
+        )}
       </div>
 
       <CalendarConfigModal
         isOpen={showConfigModal}
         onClose={() => setShowConfigModal(false)}
         onConfigured={() => {
-          // Immediately trigger login after configuring
           setTimeout(() => login(), 300);
         }}
       />

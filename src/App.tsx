@@ -240,6 +240,7 @@ export function App() {
         onClose={() => setIsClassModalOpen(false)}
         onSave={handleSaveClass}
         initialData={editingClass}
+        courseId={activeCourse?.id}
       />
 
       <CourseModal

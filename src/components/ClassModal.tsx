@@ -2,12 +2,14 @@ import React, { useState } from 'react';
 import type { ClassItem, Schedule } from '../types';
 import { DAYS_MAP } from '../utils/schedule';
 import { X, Plus, Trash2, Calendar, Clock, BookOpen, AlertCircle } from 'lucide-react';
+import { CalendarImportBtn } from './CalendarImportBtn';
 
 interface ClassModalProps {
   isOpen: boolean;
   onClose: () => void;
   onSave: (data: Omit<ClassItem, 'id' | 'createdAt'>) => void;
   initialData?: ClassItem | null;
+  courseId?: string;
 }
 
 const NOTION_COLOR_PRESETS = [
@@ -25,7 +27,8 @@ export const ClassModal: React.FC<ClassModalProps> = ({
   isOpen,
   onClose,
   onSave,
-  initialData
+  initialData,
+  courseId
 }) => {
   const [name, setName] = useState(() => initialData?.name || '');
   const [maxAbsences, setMaxAbsences] = useState(() => initialData?.maxAbsences || 5);
@@ -121,6 +124,29 @@ export const ClassModal: React.FC<ClassModalProps> = ({
           <div className="mt-3 p-3 rounded-md bg-card-tint-rose border border-semantic-error/30 text-semantic-error text-xs flex items-center gap-2">
             <AlertCircle className="w-4 h-4 shrink-0" />
             <span>{error}</span>
+          </div>
+        )}
+
+        {!initialData && courseId && (
+          <div className="mt-4 p-3.5 bg-surface border border-hairline rounded-md">
+            <div className="mb-2">
+              <p className="text-xs font-semibold text-ink">¿Prefieres importar tu horario?</p>
+              <p className="text-[11px] text-steel">Carga tus asignaturas y horas automáticamente desde tu cuenta</p>
+            </div>
+            <CalendarImportBtn
+              courseId={courseId}
+              variant="full"
+              label="Sincronizar horario con Google Calendar"
+              onSuccess={onClose}
+            />
+            <div className="relative mt-3 mb-1 text-center">
+              <div className="absolute inset-0 flex items-center">
+                <div className="w-full border-t border-hairline" />
+              </div>
+              <span className="relative px-2 bg-surface text-[10px] font-semibold text-steel uppercase tracking-wider">
+                o ingresa los datos manualmente
+              </span>
+            </div>
           </div>
         )}
 

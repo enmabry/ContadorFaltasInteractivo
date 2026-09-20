@@ -9,11 +9,14 @@ interface GoogleAuthContextType {
 }
 
 const STORAGE_KEY = 'google_calendar_client_id';
+const DEFAULT_CLIENT_ID =
+  import.meta.env.VITE_GOOGLE_CLIENT_ID ||
+  '324877115560-jjord55tu35fakiqluocqm15triicbs7.apps.googleusercontent.com';
 
 const GoogleAuthContext = createContext<GoogleAuthContextType>({
-  clientId: '',
+  clientId: DEFAULT_CLIENT_ID,
   setClientId: () => {},
-  isConfigured: false
+  isConfigured: true
 });
 
 export const useGoogleAuth = () => useContext(GoogleAuthContext);
@@ -22,8 +25,7 @@ export const GoogleAuthProviderWrapper: React.FC<{ children: React.ReactNode }> 
   const [clientId, setClientIdState] = useState<string>(() => {
     return (
       localStorage.getItem(STORAGE_KEY) ||
-      import.meta.env.VITE_GOOGLE_CLIENT_ID ||
-      ''
+      DEFAULT_CLIENT_ID
     );
   });
 
@@ -43,9 +45,7 @@ export const GoogleAuthProviderWrapper: React.FC<{ children: React.ReactNode }> 
     !clientId.includes('placeholder')
   );
 
-  const effectiveClientId = isConfigured
-    ? clientId
-    : '100000000000-placeholder.apps.googleusercontent.com';
+  const effectiveClientId = isConfigured ? clientId : DEFAULT_CLIENT_ID;
 
   return (
     <GoogleAuthContext.Provider value={{ clientId, setClientId, isConfigured }}>
