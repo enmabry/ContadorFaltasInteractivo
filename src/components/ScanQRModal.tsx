@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { createPortal } from 'react-dom';
 import { Scanner, type IDetectedBarcode } from '@yudiel/react-qr-scanner';
 import { X, ScanLine, AlertCircle } from 'lucide-react';
 import { decodeClassFromURL, decodeCourseFromURL } from '../utils/share';
@@ -123,21 +124,21 @@ export const ScanQRModal: React.FC<ScanQRModalProps> = ({ isOpen, onClose }) => 
     }
   };
 
-  return (
+  return createPortal(
     <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/60 backdrop-blur-xs">
-      <div className="w-full max-w-sm bg-canvas border border-hairline rounded-lg shadow-2xl flex flex-col overflow-hidden text-charcoal">
+      <div className="w-full max-w-sm bg-canvas border border-hairline rounded-lg shadow-2xl flex flex-col overflow-hidden text-charcoal animate-in fade-in duration-150">
         {/* Header */}
         <div className="shrink-0 flex items-center justify-between px-4 py-3 border-b border-hairline bg-surface">
-          <div className="flex items-center gap-2">
-            <div className="p-1.5 rounded-md bg-card-tint-lavender text-brand-purple">
+          <div className="flex items-center gap-2 min-w-0">
+            <div className="p-1.5 rounded-md bg-card-tint-lavender text-brand-purple shrink-0">
               <ScanLine className="w-4 h-4" />
             </div>
-            <h3 className="text-sm font-semibold text-ink">Escanear Código QR</h3>
+            <h3 className="text-sm font-semibold text-ink truncate">Escanear Código QR</h3>
           </div>
           <button
             type="button"
             onClick={onClose}
-            className="p-1 text-steel hover:text-ink rounded-md hover:bg-hairline transition-colors"
+            className="p-1 text-steel hover:text-ink rounded-md hover:bg-hairline transition-colors shrink-0 ml-1"
             title="Cerrar escáner"
           >
             <X className="w-4 h-4" />
@@ -166,7 +167,7 @@ export const ScanQRModal: React.FC<ScanQRModalProps> = ({ isOpen, onClose }) => 
         </div>
 
         {/* Status / Error / Guide */}
-        <div className="p-3.5 bg-surface text-center border-t border-hairline space-y-1">
+        <div className="p-3.5 bg-surface text-center border-t border-hairline space-y-1 shrink-0">
           {errorMessage ? (
             <div className="flex items-center justify-center gap-1.5 text-xs text-semantic-error font-medium">
               <AlertCircle className="w-3.5 h-3.5 shrink-0" />
@@ -184,6 +185,7 @@ export const ScanQRModal: React.FC<ScanQRModalProps> = ({ isOpen, onClose }) => 
           )}
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 };

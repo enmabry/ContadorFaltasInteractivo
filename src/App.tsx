@@ -215,7 +215,7 @@ export function App() {
   }, [selectedClassDetail, activeCourse]);
 
   return (
-    <div className="min-h-screen bg-surface-soft text-charcoal flex flex-col antialiased">
+    <div className="min-h-screen bg-surface-soft text-charcoal flex flex-col antialiased overflow-x-hidden w-full max-w-full">
       {/* Notion Top Navigation */}
       <Navbar
         courses={courses}

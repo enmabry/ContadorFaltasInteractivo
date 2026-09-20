@@ -67,6 +67,13 @@
 }
 
 @layer base {
+  html,
+  body {
+    overflow-x: hidden;
+    max-width: 100%;
+    width: 100%;
+  }
+
   body {
     font-family: var(--font-sans);
     background-color: var(--color-surface-soft);

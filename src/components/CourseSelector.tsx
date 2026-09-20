@@ -23,17 +23,17 @@ export const CourseSelector: React.FC<CourseSelectorProps> = ({
   const activeCourse = courses.find((c) => c.id === activeCourseId) || courses[0];
 
   return (
-    <div className="relative">
+    <div className="relative min-w-0">
       <button
         type="button"
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-2 px-3 py-1.5 rounded-md bg-canvas border border-hairline-strong hover:bg-surface text-charcoal transition-all text-xs font-medium shadow-xs"
+        className="flex items-center gap-1.5 sm:gap-2 px-2 sm:px-3 py-1.5 rounded-md bg-canvas border border-hairline-strong hover:bg-surface text-charcoal transition-all text-xs font-medium shadow-xs max-w-[120px] xs:max-w-[150px] sm:max-w-[200px] shrink min-w-0"
       >
         <div
           className="w-2.5 h-2.5 rounded-full shrink-0"
           style={{ backgroundColor: activeCourse?.color || '#5645d4' }}
         />
-        <span className="truncate max-w-[100px] sm:max-w-[180px] font-semibold text-ink">
+        <span className="truncate font-semibold text-ink">
           {activeCourse ? activeCourse.name : 'Sin Periodo'}
         </span>
         <ChevronDown className="w-3.5 h-3.5 text-steel shrink-0" />
@@ -45,7 +45,7 @@ export const CourseSelector: React.FC<CourseSelectorProps> = ({
             className="fixed inset-0 z-30"
             onClick={() => setIsOpen(false)}
           />
-          <div className="absolute left-0 mt-1 w-72 bg-canvas border border-hairline rounded-md shadow-[0px_16px_48px_-8px_rgba(15,15,15,0.16)] z-40 py-2 text-xs divide-y divide-hairline-soft animate-in fade-in zoom-in-95 duration-100">
+          <div className="absolute left-0 mt-1 w-72 max-w-[calc(100vw-2rem)] bg-canvas border border-hairline rounded-md shadow-[0px_16px_48px_-8px_rgba(15,15,15,0.16)] z-40 py-2 text-xs divide-y divide-hairline-soft animate-in fade-in zoom-in-95 duration-100">
             {/* List of courses */}
             <div className="py-1 max-h-60 overflow-y-auto">
               <div className="px-3 py-1 text-[10px] font-semibold uppercase tracking-wider text-stone">
