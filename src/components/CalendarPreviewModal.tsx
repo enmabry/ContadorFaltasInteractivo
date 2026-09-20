@@ -63,36 +63,37 @@ export const CalendarPreviewModal: React.FC<CalendarPreviewModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/50 backdrop-blur-xs">
-      <div className="relative w-full max-w-xl bg-canvas border border-hairline rounded-lg shadow-[0px_16px_48px_-8px_rgba(15,15,15,0.16)] p-4 sm:p-6 text-charcoal max-h-[92dvh] flex flex-col overflow-hidden">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 pt-[max(1.25rem,env(safe-area-inset-top))] pb-[max(1rem,env(safe-area-inset-bottom))] bg-black/50 backdrop-blur-xs overflow-y-auto">
+      <div className="relative w-full max-w-xl bg-canvas border border-hairline rounded-xl sm:rounded-lg shadow-[0px_16px_48px_-8px_rgba(15,15,15,0.16)] p-3.5 sm:p-6 text-charcoal max-h-[82dvh] sm:max-h-[85vh] flex flex-col overflow-hidden my-auto">
         {/* Header */}
-        <div className="flex items-center justify-between pb-3 border-b border-hairline shrink-0">
-          <div className="flex items-center gap-2.5">
-            <div className="p-2 rounded-md bg-card-tint-mint text-brand-green">
-              <Calendar className="w-5 h-5" />
+        <div className="flex items-start justify-between pb-2.5 sm:pb-3 border-b border-hairline shrink-0">
+          <div className="flex items-center gap-2 sm:gap-2.5 min-w-0 pr-2">
+            <div className="p-1.5 sm:p-2 rounded-md bg-card-tint-mint text-brand-green shrink-0">
+              <Calendar className="w-4 h-4 sm:w-5 sm:h-5" />
             </div>
-            <div>
-              <h2 className="text-base font-semibold text-ink">
-                Vista Previa de Eventos Detectados
+            <div className="min-w-0">
+              <h2 className="text-sm sm:text-base font-bold sm:font-semibold text-ink leading-tight truncate">
+                Vista Previa de Clases
               </h2>
-              <p className="text-xs text-steel">
-                Revisa y selecciona las asignaturas que deseas añadir a tu curso
+              <p className="text-[11px] sm:text-xs text-steel leading-tight line-clamp-1">
+                Selecciona las asignaturas a importar
               </p>
             </div>
           </div>
           <button
             type="button"
             onClick={onClose}
-            className="p-1.5 text-steel hover:text-ink rounded-sm hover:bg-surface transition-colors"
+            className="p-1.5 text-steel hover:text-ink rounded-md hover:bg-surface transition-colors shrink-0"
+            title="Cerrar modal"
           >
             <X className="w-4 h-4" />
           </button>
         </div>
 
         {/* Info banner */}
-        <div className="my-3 p-2.5 sm:p-3 rounded-md bg-card-tint-sky/40 border border-link-blue/20 text-xs text-charcoal flex items-center justify-between shrink-0">
+        <div className="my-2 sm:my-3 p-2 sm:p-2.5 rounded-md bg-card-tint-sky/40 border border-link-blue/20 text-xs text-charcoal flex items-center justify-between shrink-0">
           <span className="text-[11px] sm:text-xs">
-            Se encontraron <strong>{classes.length}</strong> materias distintas en tu semana.
+            Detectadas: <strong>{classes.length}</strong> materias
           </span>
           <span className="text-[11px] font-semibold text-link-blue shrink-0">
             {selectedCount} seleccionadas
@@ -100,7 +101,7 @@ export const CalendarPreviewModal: React.FC<CalendarPreviewModalProps> = ({
         </div>
 
         {/* Classes list */}
-        <div className="overflow-y-auto pr-1 py-1 space-y-2.5 flex-1 min-h-0">
+        <div className="overflow-y-auto pr-1 py-1 space-y-2 flex-1 min-h-0">
           {classes.map((cls, idx) => (
             <div
               key={idx}
